@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GeoAccess Explorer – WebGIS Analisis Aksesibilitas Lokasi</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{--teal:#0f5c58;--teal2:#14857e;--ink:#12302e;--mut:#6b7f7d;--line:#dde6e4;--bg:#f4f8f7}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:#fff}
+body{display:grid;grid-template-rows:64px 1fr 64px;grid-template-columns:270px 1fr}
+header{grid-column:1/3;display:flex;align-items:center;gap:20px;padding:0 20px;border-bottom:1px solid var(--line);background:#fff;z-index:1100}
+.brand{display:flex;align-items:center;gap:10px;min-width:250px}
+.brand .lg{font-size:30px}.brand b{font-size:19px;color:var(--teal);display:block;line-height:1.1}.brand small{color:var(--mut);font-size:12px}
+.search{position:relative;flex:1;max-width:640px;display:flex}
+.search input{flex:1;border:1px solid var(--line);border-radius:6px 0 0 6px;padding:10px 12px;font:inherit;outline:none}
+.search input:focus{border-color:var(--teal2)}
+.search button{background:var(--teal);color:#fff;border:0;padding:0 18px;border-radius:0 6px 6px 0;cursor:pointer;font-size:16px}
+#res{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--line);border-radius:6px;box-shadow:0 8px 24px #0002;margin-top:4px;display:none;max-height:260px;overflow:auto}
+#res div{padding:9px 12px;cursor:pointer;border-bottom:1px solid var(--line);font-size:13px}#res div:hover{background:var(--bg)}
+.hbtns{margin-left:auto;display:flex;gap:6px}
+.ib{background:none;border:0;font-size:20px;cursor:pointer;padding:8px;border-radius:6px;color:var(--teal)}.ib:hover{background:var(--bg)}
+aside{overflow:auto;background:#fbfdfc;border-right:1px solid var(--line);padding:14px 12px}
+aside h3{margin:6px 4px 10px;font-size:13px;color:var(--teal);display:flex;align-items:center;gap:8px}
+.lyr{display:flex;align-items:center;gap:10px;padding:9px 8px;border-radius:6px;cursor:pointer;user-select:none}
+.lyr:hover{background:#eef4f3}.lyr input{accent-color:var(--teal);width:16px;height:16px}.lyr .ic{width:22px;text-align:center;font-size:18px}
+.tool{display:flex;width:100%;align-items:center;gap:10px;padding:11px 10px;margin-bottom:6px;background:#fff;border:1px solid var(--line);border-radius:6px;cursor:pointer;font:inherit;color:var(--ink);text-align:left}
+.tool:hover{border-color:var(--teal2)}.tool.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.tool span:last-child{margin-left:auto}
+.rad{display:flex;gap:6px;align-items:center;margin:-2px 0 8px;font-size:12px;color:var(--mut)}
+.rad input{width:80px;padding:5px;border:1px solid var(--line);border-radius:5px;font:inherit}
+main{position:relative;min-height:0}
+#mapwrap{position:absolute;inset:0;background:#1d2b2a}
+#map{position:absolute;inset:0;background:#1d2b2a;cursor:crosshair}
+.panel{position:absolute;z-index:1000;background:#fff;border-radius:8px;box-shadow:0 4px 18px #0004}
+#info{top:14px;right:14px;width:290px;padding:14px}
+#info h4{margin:0 0 10px;display:flex;justify-content:space-between;font-size:13px;color:var(--teal)}
+#info h4 span{cursor:pointer;color:var(--mut)}
+#info .r{display:flex;gap:10px;margin:9px 0}#info .r i{font-style:normal;width:20px}#info .r small{color:var(--mut);display:block}
+#extra{font-size:12px;color:var(--mut);border-top:1px solid var(--line);padding-top:8px;margin-top:8px;white-space:pre-line}
+.btn{background:var(--teal);color:#fff;border:1px solid var(--teal);border-radius:6px;padding:10px 16px;font:inherit;font-weight:600;cursor:pointer}
+.btn.o{background:#fff;color:var(--teal)}.btn:hover{filter:brightness(1.1)}
+#info .btn{width:100%;margin-top:6px}
+#legend{left:14px;bottom:14px;padding:10px 14px;min-width:170px;font-size:12.5px}
+#legend b{display:flex;justify-content:space-between;cursor:pointer;margin-bottom:6px;font-size:13px}
+#legend div.i{display:flex;align-items:center;gap:9px;margin:5px 0}
+.sw{width:20px;height:6px;border-radius:3px;flex:none}.sw.f{height:14px;width:20px;border-radius:3px;border:1px solid #0003}
+#north{top:14px;right:330px;color:#fff;text-align:center;font-weight:700;text-shadow:0 1px 3px #000;font-size:12px;line-height:1}
+#north i{display:block;font-style:normal;font-size:34px}
+#scale{right:16px;bottom:30px;color:#fff;font-weight:600;text-shadow:0 1px 3px #000;text-align:center;background:none;box-shadow:none;font-size:12px}
+#scale div{height:7px;border:2px solid #fff;border-top:0;margin:2px auto 0}
+#attr{position:absolute;right:6px;bottom:3px;z-index:1000;font-size:10px;color:#fff;text-shadow:0 1px 2px #000}
+#zoom{position:absolute;left:14px;top:14px;z-index:1000;display:flex;flex-direction:column;gap:8px}
+#zoom button{width:38px;height:38px;border:0;border-radius:6px;background:#fff;font-size:20px;cursor:pointer;box-shadow:0 2px 8px #0004;color:var(--ink)}
+#hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:1000;background:#12302ee6;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;display:none;max-width:70%;text-align:center}
+.pin{width:26px;height:26px;border-radius:50% 50% 50% 0;background:#14b8a6;border:3px solid #fff;transform:rotate(-45deg);box-shadow:0 2px 6px #0007}
+.lbl{background:#fff;border:0;border-radius:14px;font-weight:600;padding:3px 10px;box-shadow:0 2px 6px #0004}.lbl:before{display:none}
+footer{grid-column:1/3;display:flex;align-items:center;gap:20px;padding:0 20px;border-top:1px solid var(--line);background:#fff;z-index:1100}
+footer .t{font-weight:700;color:var(--teal)}footer select{padding:9px;border:1px solid var(--line);border-radius:6px;font:inherit}
+footer label{display:flex;gap:6px;align-items:center;cursor:pointer}footer input[type=checkbox]{accent-color:var(--teal)}
+footer .sp{margin-left:auto;display:flex;gap:10px}
+dialog{border:0;border-radius:10px;padding:20px;max-width:420px;box-shadow:0 10px 40px #0006}dialog pre{white-space:pre-wrap;font:inherit;margin:10px 0}
+.tool2{display:flex;width:100%;align-items:center;gap:10px;padding:11px 10px;margin-bottom:6px;background:#fff;border:1px solid var(--line);border-radius:6px;cursor:pointer;font:inherit;color:var(--ink);text-align:left}.tool2:hover,.tool2.on{background:var(--teal);color:#fff}
+#info{max-height:calc(100% - 28px);overflow:auto}
+.co{background:#fff;border-radius:14px;padding:3px 10px;font-weight:600;font-size:12px;box-shadow:0 2px 6px #0005;white-space:nowrap;color:#12302e}
+.dot{border:2px solid #fff;border-radius:50%;background:#12302e}
+#tl{position:absolute;left:50%;bottom:60px;transform:translateX(-50%);z-index:1000;background:#fff;border-radius:24px;padding:8px 16px;box-shadow:0 4px 18px #0005;display:none;align-items:center;gap:12px;width:min(520px,80%)}
+#tl input{flex:1;accent-color:var(--teal)}#tl button{border:0;background:none;font-size:18px;cursor:pointer;color:var(--teal)}
+#yr{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:1000;background:#12302ee6;color:#fff;padding:6px 16px;border-radius:20px;font-weight:600;display:none}
+#lgb .sy{width:22px;height:20px;flex:none}
+@media(max-width:820px){body{grid-template-columns:1fr;grid-template-rows:auto 220px 1fr auto}header{grid-column:1;flex-wrap:wrap;padding:8px 12px;gap:8px}.brand{min-width:0}aside{grid-row:2;border-right:0}main{grid-row:3}footer{grid-column:1;flex-wrap:wrap;padding:8px 12px;gap:8px}#info{width:220px}#north{right:250px}footer .sp{margin-left:0}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><span class="lg">🌏</span><div><b>GeoAccess Explorer</b><small>WebGIS Analisis Aksesibilitas Lokasi</small></div></div>
+  <div class="search"><input id="q" placeholder="Cari lokasi, alamat, atau koordinat…" autocomplete="off"><button id="go" title="Cari">🔍</button><div id="res"></div></div>
+  <div class="hbtns"><button class="ib" id="bBase" title="Ganti peta dasar">🗺️</button><button class="ib" id="bDl" title="Unduh peta (PNG)">⬇️</button><button class="ib" id="bSet" title="Kualitas ekspor">⚙️</button></div>
+</header>
+
+<aside>
+  <h3>LAYER PETA</h3><div id="layers"></div>
+  <h3 style="margin-top:22px">ANALISIS AKSESIBILITAS</h3>
+  <button class="tool" data-m="measure"><span>📏</span>Ukur Jarak<span>›</span></button>
+  <button class="tool" data-m="route"><span>🧭</span>Analisis Rute<span>›</span></button>
+  <button class="tool" data-m="radius"><span>🎯</span>Radius Layanan<span>›</span></button>
+  <div class="rad">Radius <input id="rad" type="number" value="500" min="50" step="50"> meter</div>
+  <button class="tool" data-m="area"><span>⬚</span>Gambar Area Analisis<span>›</span></button>
+  <h3 style="margin-top:22px">ASISTEN &amp; TIMELAPSE</h3>
+  <button class="tool2" id="bSmart"><span>🧠</span>Analisis Cerdas Lokasi</button>
+  <button class="tool2" id="bTl"><span>🕒</span>Timelapse Citra</button>
+</aside>
+
+<main>
+<div id="mapwrap">
+  <div id="map"></div>
+  <div id="zoom" class="noexp"><button id="zi">+</button><button id="zo">−</button><button id="loc" title="Lokasi saya">⌖</button></div>
+  <div id="north" class="panel" style="background:none;box-shadow:none"><i>▲</i>N</div>
+  <div id="legend" class="panel"><b>Legenda <span>⌃</span></b><div id="lgb"></div></div>
+  <div id="scale" class="panel"><span id="sl">0 – 500 m</span><div id="sb"></div></div>
+  <div id="attr">Citra: Esri, Maxar, Earthstar Geographics | Data: © OpenStreetMap contributors</div>
+  <div id="info" class="panel noexp">
+    <h4>📍 INFORMASI LOKASI <span id="xi">✕</span></h4>
+    <div class="r"><i>📍</i><div id="ic">Klik peta untuk memilih lokasi</div></div>
+    <div class="r"><i>🛣️</i><div><small>Jarak ke jalan:</small><b id="ir">—</b></div></div>
+    <div class="r"><i>🌊</i><div><small>Jarak ke sungai:</small><b id="iv">—</b></div></div>
+    <div class="r"><i>⬚</i><div><small>Luas area:</small><b id="ia">—</b></div></div>
+    <div id="extra"></div>
+    <button class="btn" id="det">ⓘ Lihat detail</button>
+  </div>
+  <div id="yr"></div>
+  <div id="tl" class="noexp"><button id="tp" title="Putar / jeda">▶</button><input type="range" id="tr" min="0" max="0" value="0"><button id="tx" title="Tutup timelapse">✕</button></div>
+  <div id="hint" class="noexp"></div>
+</div>
+</main>
+
+<footer>
+  <span class="t">📄 LAYOUT &amp; UNDUH PETA</span>
+  <select id="fmt"><option value="a4-l">A4 Landscape</option><option value="a4-p">A4 Portrait</option><option value="a3-l">A3 Landscape</option></select>
+  <label><input type="checkbox" id="cLg" checked>Legenda</label>
+  <label><input type="checkbox" id="cNo" checked>Arah Utara</label>
+  <label><input type="checkbox" id="cSc" checked>Skala</label>
+  <div class="sp"><button class="btn o" id="bPdf">⬇ Unduh PDF</button><button class="btn" id="bPng">🖼 Ekspor PNG</button></div>
+</footer>
+
+<dialog id="dlg"><b>Detail lokasi</b><pre id="dtx"></pre><button class="btn" onclick="dlg.close()">Tutup</button></dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const map=L.map('map',{zoomControl:false,attributionControl:false,doubleClickZoom:false,maxZoom:21}).setView([-3.2125,103.7575],16);
+
+/* ---------- Peta dasar (citra resolusi tinggi) ---------- */
+const esri='https://server.arcgisonline.com/ArcGIS/rest/services/';
+const base={
+  sat:L.tileLayer(esri+'World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:21,maxNativeZoom:19,detectRetina:true,crossOrigin:true}),
+  lbl:L.tileLayer(esri+'Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{maxZoom:21,maxNativeZoom:19,crossOrigin:true}),
+  osm:L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:21,maxNativeZoom:19,crossOrigin:true})};
+const modes=[['Citra satelit',['sat']],['Citra satelit + nama tempat',['sat','lbl']],['Peta jalan OSM',['osm']]];
+let bm=0,satOn=true;
+function applyBase(){Object.values(base).forEach(l=>map.removeLayer(l));if(satOn)modes[bm][1].forEach(k=>base[k].addTo(map).bringToBack())}
+applyBase();
+$('#bBase').onclick=()=>{bm=(bm+1)%3;satOn=true;$('#sat').checked=true;applyBase();hint('Peta dasar: '+modes[bm][0])};
+
+/* ---------- Layer data OSM (Overpass) ---------- */
+const PAL={farmland:'#a3e635',paddy:'#a3e635',orchard:'#84cc16',forest:'#166534',wood:'#166534',scrub:'#4d7c0f',grassland:'#65a30d',grass:'#65a30d',meadow:'#65a30d',residential:'#fb923c',water:'#38bdf8',wetland:'#2dd4bf',farmyard:'#d9f99d',plantation:'#4d7c0f'};
+const CATS={
+ landcover:{n:'Tutupan Lahan',ic:'🌳',z:410,q:['way["landuse"]','way["natural"~"wood|scrub|wetland|water|grassland"]'],poly:1,
+   st:t=>{const c=PAL[t.landuse]||PAL[t.natural]||'#94a3b8';return{color:c,weight:1,fillColor:c,fillOpacity:.35}},lb:t=>'Tutupan lahan: '+(t.landuse||t.natural)},
+ rivers:{n:'Sungai',ic:'🌊',z:420,q:['way["waterway"~"river|stream|canal|drain"]'],st:()=>({color:'#0ea5e9',weight:3.5}),lb:t=>t.name||'Sungai / saluran air'},
+ buildings:{n:'Bangunan / Rumah',ic:'🏠',z:430,q:['way["building"]'],poly:1,st:()=>({color:'#b91c1c',weight:1,fillColor:'#ef4444',fillOpacity:.6}),lb:t=>t.name||'Bangunan'},
+ roads:{n:'Jaringan Jalan',ic:'🛣️',z:440,q:['way["highway"]'],st:t=>({color:'#f59e0b',weight:/primary|secondary|trunk/.test(t.highway)?4.5:2.5}),lb:t=>t.name||'Jalan ('+t.highway+')'},
+ facilities:{n:'Fasilitas Umum',ic:'🏛️',z:450,q:['node["amenity"]'],lb:t=>(t.name||'Fasilitas')+' ('+t.amenity+')'}};
+const data={},loaded={},G={};
+for(const c in CATS){map.createPane(c).style.zIndex=CATS[c].z;G[c]=L.layerGroup()}
+const order=[['sat','Citra Satelit','🖼️'],['roads'],['rivers'],['buildings'],['landcover'],['facilities'],['area','Area Analisis','⬚']];
+$('#layers').innerHTML=order.map(([id,n,ic])=>`<label class="lyr"><input type="checkbox" id="${id==='sat'?'sat':'c_'+id}" ${id==='facilities'?'':'checked'}><span class="ic">${ic||CATS[id].ic}</span>${n||CATS[id].n}</label>`).join('');
+const areaGrp=L.layerGroup().addTo(map);
+
+async function load(c,b){
+  const bb=[b.getSouth(),b.getWest(),b.getNorth(),b.getEast()].join(',');
+  const q='[out:json][timeout:30];('+CATS[c].q.map(s=>s+'('+bb+');').join('')+');out geom;';
+  const r=await fetch('https://overpass-api.de/api/interpreter',{method:'POST',body:'data='+encodeURIComponent(q)});
+  if(!r.ok)throw new Error('Overpass '+r.status);
+  const j=await r.json();
+  data[c]=j.elements.map(e=>e.type==='node'?{tags:e.tags||{},pt:[e.lat,e.lon]}:(e.geometry?{tags:e.tags||{},pts:e.geometry.map(g=>[g.lat,g.lon])}:null)).filter(Boolean);
+  loaded[c]=b;render(c);
+}
+function render(c){
+  G[c].clearLayers();const C=CATS[c];
+  data[c].forEach(f=>{const t=f.tags;let l;
+    if(f.pt)l=L.circleMarker(f.pt,{pane:c,radius:6,color:'#fff',weight:2,fillColor:'#7c3aed',fillOpacity:1});
+    else{const o={...C.st(t),pane:c};const closed=C.poly&&f.pts.length>3&&f.pts[0][0]===f.pts.at(-1)[0]&&f.pts[0][1]===f.pts.at(-1)[1];
+      l=closed?L.polygon(f.pts,o):L.polyline(f.pts,o)}
+    l.bindTooltip(C.lb(t),{sticky:true});G[c].addLayer(l)});
+}
+async function ensure(c,b){if(!loaded[c]||!loaded[c].contains(b))await load(c,b.pad(.25))}
+let tm;
+function refresh(){clearTimeout(tm);tm=setTimeout(async()=>{
+  if(map.getZoom()<14){if(Object.keys(CATS).some(c=>map.hasLayer(G[c])))hint('Perbesar peta (zoom ≥ 14) untuk memuat data layer');return}
+  for(const c in CATS)if(map.hasLayer(G[c])){try{await ensure(c,map.getBounds())}catch(e){hint('Gagal memuat data '+CATS[c].n+'. Coba lagi sebentar.')}}},500)}
+for(const c in CATS){const cb=$('#c_'+c);const sync=()=>{cb.checked?(G[c].addTo(map),refresh()):map.removeLayer(G[c])};cb.onchange=sync;if(cb.checked)G[c].addTo(map)}
+$('#sat').onchange=e=>{satOn=e.target.checked;applyBase()};
+$('#c_area').onchange=e=>e.target.checked?areaGrp.addTo(map):map.removeLayer(areaGrp);
+map.on('moveend',()=>{refresh();scaleBar()});refresh();
+
+/* ---------- Utilitas ---------- */
+let ht;function hint(t,ms=3500){const h=$('#hint');h.textContent=t;h.style.display='block';clearTimeout(ht);if(ms)ht=setTimeout(()=>h.style.display='none',ms)}
+const dms=(v,p,n)=>{const h=v>=0?p:n;v=Math.abs(v);const d=Math.floor(v),m=Math.floor((v-d)*60),s=Math.round(((v-d)*60-m)*60);return `${d}° ${m}' ${s}" ${h}`};
+const cstr=ll=>dms(ll.lat,'LU','LS')+', '+dms(ll.lng,'BT','BB');
+const fd=m=>m==null||!isFinite(m)?'—':m<1000?Math.round(m)+' m':(m/1000).toFixed(2)+' km';
+const fa=m=>m>=10000?(m/10000).toFixed(2)+' ha ('+Math.round(m).toLocaleString('id-ID')+' m²)':Math.round(m).toLocaleString('id-ID')+' m²';
+function polyArea(p){const k=Math.cos(p.reduce((s,x)=>s+x.lat,0)/p.length*Math.PI/180)*111320;let a=0;for(let i=0;i<p.length;i++){const q=p[(i+1)%p.length];a+=p[i].lng*k*q.lat*110574-q.lng*k*p[i].lat*110574}return Math.abs(a)/2}
+function minDist(ll,c){let best=Infinity;const k=Math.cos(ll.lat*Math.PI/180)*111320;
+  for(const f of data[c]||[])for(let i=0;i<(f.pts||[]).length-1;i++){
+    const ax=(f.pts[i][1]-ll.lng)*k,ay=(f.pts[i][0]-ll.lat)*110574,bx=(f.pts[i+1][1]-ll.lng)*k,by=(f.pts[i+1][0]-ll.lat)*110574;
+    const dx=bx-ax,dy=by-ay,L2=dx*dx+dy*dy;let t=L2?Math.max(0,Math.min(1,-(ax*dx+ay*dy)/L2)):0;
+    best=Math.min(best,Math.hypot(ax+t*dx,ay+t*dy))}
+  return best}
+const S={ll:null,area:null,extra:'',roadD:null,riverD:null};
+function panel(){$('#ic').textContent=S.ll?cstr(S.ll):'Klik peta untuk memilih lokasi';$('#ir').textContent=fd(S.roadD);$('#iv').textContent=fd(S.riverD);$('#ia').textContent=S.area?fa(S.area):'—';$('#extra').textContent=S.extra}
+
+/* ---------- Lokasi analisis ---------- */
+let pin;
+async function place(ll){
+  ll=L.latLng(ll);S.ll=ll;S.roadD=S.riverD=null;panel();
+  if(pin)map.removeLayer(pin);
+  pin=L.marker(ll,{icon:L.divIcon({className:'',html:'<div class="pin"></div>',iconSize:[26,26],iconAnchor:[13,26]})}).addTo(map)
+    .bindTooltip('Lokasi Analisis',{permanent:true,direction:'right',offset:[12,-14],className:'lbl'});
+  try{const b=ll.toBounds(3000);await Promise.all([ensure('roads',b),ensure('rivers',b)]);S.roadD=minDist(ll,'roads');S.riverD=minDist(ll,'rivers');panel()}
+  catch(e){hint('Data jalan/sungai belum bisa dimuat (server Overpass sibuk).')}
+}
+
+/* ---------- Alat analisis ---------- */
+const D=L.layerGroup().addTo(map);let mode=null,pts=[];
+const tips={area:'Klik untuk menambah titik area, klik ganda untuk selesai',measure:'Klik untuk menambah titik, klik ganda untuk selesai',route:'Klik titik awal lalu titik tujuan',radius:'Klik lokasi pusat radius layanan'};
+document.querySelectorAll('.tool').forEach(b=>b.onclick=()=>{mode=mode===b.dataset.m?null:b.dataset.m;pts=[];D.clearLayers();
+  document.querySelectorAll('.tool').forEach(x=>x.classList.toggle('on',x.dataset.m===mode));mode?hint(tips[mode],0):($('#hint').style.display='none')});
+function redraw(){D.clearLayers();pts.forEach(p=>L.circleMarker(p,{radius:5,color:'#fff',fillColor:'#f97316',fillOpacity:1,weight:2}).addTo(D));
+  if(mode==='area'&&pts.length>1)L.polygon(pts,{color:'#f97316',weight:3,dashArray:'8 6',fillOpacity:.12}).addTo(D);
+  if(mode==='measure'&&pts.length>1){L.polyline(pts,{color:'#fde047',weight:3}).addTo(D);S.extra='Jarak terukur: '+fd(len())+' ('+pts.length+' titik)';panel()}}
+const len=()=>pts.reduce((s,p,i)=>i?s+map.distance(pts[i-1],p):0,0);
+map.on('click',e=>{
+  if(!mode)return place(e.latlng);
+  pts.push(e.latlng);redraw();
+  if(mode==='radius')doRadius(e.latlng);
+  if(mode==='route'&&pts.length===2)doRoute()});
+map.on('dblclick',()=>{
+  if(mode==='area'&&pts.length>2){pts.pop();finishArea()}
+  if(mode==='measure'&&pts.length>1){pts.pop();redraw();hint('Jarak total: '+fd(len()))}});
+async function finishArea(){
+  const a=polyArea(pts);areaGrp.clearLayers();
+  L.polygon(pts,{color:'#f97316',weight:3,dashArray:'8 6',fillColor:'#f97316',fillOpacity:.12}).addTo(areaGrp);
+  const c=L.latLng(pts.reduce((s,p)=>s+p.lat,0)/pts.length,pts.reduce((s,p)=>s+p.lng,0)/pts.length);
+  $('#c_area').checked=true;areaGrp.addTo(map);D.clearLayers();pts=[];
+  await place(c);S.area=a;S.extra='Jarak dihitung dari pusat area analisis.';panel();hint('Luas area: '+fa(a));
+}
+async function doRadius(ll){
+  const r=Math.max(50,+$('#rad').value||500);D.clearLayers();
+  L.circle(ll,{radius:r,color:'#14b8a6',weight:2,fillOpacity:.12}).addTo(D);
+  S.extra='Memuat data dalam radius…';panel();
+  try{const b=ll.toBounds(r*2.2);await Promise.all(['buildings','facilities','roads'].map(c=>ensure(c,b)));
+    const inR=c=>(data[c]||[]).filter(f=>map.distance(ll,f.pt||f.pts[0])<=r).length;
+    S.extra=`Radius layanan ${fd(r)}\nLuas: ${fa(Math.PI*r*r)}\nBangunan: ${inR('buildings')}\nFasilitas umum: ${inR('facilities')}\nRuas jalan: ${inR('roads')}`}
+  catch(e){S.extra='Data radius gagal dimuat.'}
+  panel();pts=[];
+}
+async function doRoute(){
+  const [a,b]=pts;S.extra='Menghitung rute…';panel();
+  try{const r=await fetch(`https://router.project-osrm.org/route/v1/driving/${a.lng},${a.lat};${b.lng},${b.lat}?overview=full&geometries=geojson`);const j=await r.json();
+    if(j.code!=='Ok')throw 0;const rt=j.routes[0];L.geoJSON(rt.geometry,{style:{color:'#2563eb',weight:5}}).addTo(D);
+    S.extra=`Rute (kendaraan)\nJarak: ${fd(rt.distance)}\nWaktu tempuh: ±${Math.round(rt.duration/60)} menit`}
+  catch(e){S.extra='Rute tidak ditemukan. Pastikan kedua titik dekat jalan.'}
+  panel();pts=[];
+}
+
+/* ---------- Pencarian lokasi ---------- */
+async function search(){
+  const q=$('#q').value.trim();if(!q)return;const res=$('#res');
+  const m=q.match(/^(-?\d+(?:\.\d+)?)\s*[,;\s]\s*(-?\d+(?:\.\d+)?)$/);
+  if(m){res.style.display='none';map.setView([+m[1],+m[2]],18);return place([+m[1],+m[2]])}
+  res.style.display='block';res.innerHTML='<div>Mencari…</div>';
+  try{const r=await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=6&accept-language=id&q='+encodeURIComponent(q));const j=await r.json();
+    res.innerHTML=j.length?'':'<div>Lokasi tidak ditemukan. Coba kata kunci lain.</div>';
+    j.forEach(x=>{const d=document.createElement('div');d.textContent=x.display_name;d.onclick=()=>{res.style.display='none';
+      const bb=x.boundingbox.map(Number);map.fitBounds([[bb[0],bb[2]],[bb[1],bb[3]]],{maxZoom:18});place([+x.lat,+x.lon])};res.appendChild(d)})}
+  catch(e){res.innerHTML='<div>Pencarian gagal. Periksa koneksi internet.</div>'}
+}
+$('#go').onclick=search;$('#q').onkeydown=e=>{if(e.key==='Enter')search()};
+document.addEventListener('click',e=>{if(!e.target.closest('.search'))$('#res').style.display='none'});
+
+/* ---------- Kontrol peta & overlay layout ---------- */
+$('#zi').onclick=()=>map.zoomIn();$('#zo').onclick=()=>map.zoomOut();
+$('#loc').onclick=()=>map.locate({setView:true,maxZoom:18});
+map.on('locationfound',e=>place(e.latlng));map.on('locationerror',()=>hint('Lokasi perangkat tidak dapat diakses.'));
+$('#xi').onclick=()=>$('#info').style.display='none';
+$('#legend b').onclick=()=>{const g=$('#lgb');g.style.display=g.style.display==='none'?'':'none'};
+const LG=[['Lokasi Analisis','#14b8a6','f'],['Jaringan jalan','#f59e0b'],['Sungai','#0ea5e9'],['Bangunan / rumah','#ef4444','f'],['Sawah / lahan tani','#a3e635','f'],['Hutan / vegetasi','#166534','f'],['Permukiman','#fb923c','f'],['Area analisis','#f97316','f'],['Fasilitas umum','#7c3aed','f']];
+$('#lgb').innerHTML=LG.map(([n,c,f])=>`<div class="i"><span class="sw ${f||''}" style="background:${c}"></span>${n}</div>`).join('');
+$('#cLg').onchange=e=>$('#legend').style.display=e.target.checked?'':'none';
+$('#cNo').onchange=e=>$('#north').style.display=e.target.checked?'':'none';
+$('#cSc').onchange=e=>$('#scale').style.display=e.target.checked?'':'none';
+function scaleBar(){const y=map.getSize().y/2,p1=map.containerPointToLatLng([0,y]),p2=map.containerPointToLatLng([100,y]);
+  const mpp=map.distance(p1,p2)/100;const n=[5,10,20,25,50,100,200,250,500,1000,2000,5000,10000,20000,50000].find(v=>v/mpp>=90)||50000;
+  $('#sb').style.width=Math.round(n/mpp)+'px';$('#sl').textContent='0 – '+(n>=1000?n/1000+' km':n+' m')}
+scaleBar();
+
+/* ---------- Ekspor peta & layout ---------- */
+let SC=2;
+$('#bSet').onclick=()=>{SC=SC%3+1;hint('Kualitas ekspor: '+SC+'× (makin besar makin tajam, makin berat)')};
+async function snap(){hint('Menyiapkan gambar peta…',0);
+  const c=await html2canvas($('#mapwrap'),{useCORS:true,scale:SC,backgroundColor:'#1d2b2a',logging:false,
+    ignoreElements:el=>el.classList&&(el.classList.contains('noexp')||el.classList.contains('leaflet-control-container'))});
+  $('#hint').style.display='none';return c}
+function save(url,name){const a=document.createElement('a');a.href=url;a.download=name;a.click()}
+const stamp=()=>new Date().toISOString().slice(0,10);
+async function exPng(){try{const c=await snap();save(c.toDataURL('image/png'),`geoaccess-${stamp()}.png`)}catch(e){hint('Ekspor gagal. Coba kurangi kualitas ekspor (ikon ⚙️).')}}
+$('#bPng').onclick=$('#bDl').onclick=exPng;
+$('#bPdf').onclick=async()=>{
+  try{const c=await snap();const [f,o]=$('#fmt').value.split('-');
+    const pdf=new jspdf.jsPDF({orientation:o,unit:'mm',format:f});const W=pdf.internal.pageSize.getWidth(),H=pdf.internal.pageSize.getHeight(),m=10;
+    pdf.setFontSize(16);pdf.setTextColor(15,92,88);pdf.text('GeoAccess Explorer - Peta Aksesibilitas Lokasi',m,m+5);
+    const top=m+10,bot=34,aw=W-2*m,ah=H-top-bot,r=c.width/c.height;let w=aw,h=w/r;if(h>ah){h=ah;w=h*r}
+    pdf.addImage(c.toDataURL('image/jpeg',.92),'JPEG',m+(aw-w)/2,top,w,h);pdf.setDrawColor(15,92,88);pdf.rect(m+(aw-w)/2,top,w,h);
+    const lines=[S.ll?'Lokasi analisis: '+cstr(S.ll):'Pusat peta: '+cstr(map.getCenter()),
+      `Jarak ke jalan: ${fd(S.roadD)}   |   Jarak ke sungai: ${fd(S.riverD)}   |   Luas area: ${S.area?fa(S.area):'-'}`,
+      ...(S.extra?[S.extra.replace(/\n/g,'; ')]:[]),
+      'Citra: Esri, Maxar, Earthstar Geographics | Data: OpenStreetMap contributors | Dicetak '+stamp()];
+    pdf.setFontSize(9);pdf.setTextColor(50);pdf.text(lines,m,top+h+6);pdf.save(`geoaccess-${stamp()}.pdf`)}
+  catch(e){hint('Ekspor PDF gagal. Coba kurangi kualitas ekspor (ikon ⚙️).')}};
+
+/* ---------- Legenda ringkas dengan simbol ---------- */
+const sv=b=>`<svg class="sy" viewBox="0 0 20 20">${b}</svg>`;
+const LG2=[
+ ['Lokasi analisis',sv('<path d="M10 1a6 6 0 0 0-6 6c0 4.5 6 12 6 12s6-7.5 6-12a6 6 0 0 0-6-6z" fill="#14b8a6" stroke="#fff"/><circle cx="10" cy="7" r="2.2" fill="#fff"/>')],
+ ['Jalan',sv('<path d="M1 15L19 5" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>')],
+ ['Sungai',sv('<path d="M1 11q4-7 6 0t6 0 6 0" fill="none" stroke="#0ea5e9" stroke-width="3" stroke-linecap="round"/>')],
+ ['Danau / badan air',sv('<ellipse cx="10" cy="10" rx="9" ry="6" fill="#38bdf8" stroke="#0284c7" stroke-width="1.5"/>')],
+ ['Permukiman',sv('<path d="M2 10L10 3l8 7v7H2z" fill="#ef4444"/><rect x="8" y="12" width="4" height="5" fill="#fff"/>')],
+ ['Rute',sv('<path d="M1 10h18" stroke="#2563eb" stroke-width="3" stroke-dasharray="4 3"/>')]];
+$('#lgb').innerHTML=LG2.map(([n,s])=>`<div class="i">${s}${n}</div>`).join('');
+
+/* ---------- Analisis Cerdas (berbasis aturan + data OSM) ---------- */
+const SM=L.featureGroup().addTo(map);
+function nearestPt(ll,c){let b={d:Infinity};const k=Math.cos(ll.lat*Math.PI/180)*111320;
+  for(const f of data[c]||[])for(let i=0;i<(f.pts||[]).length-1;i++){
+    const ax=(f.pts[i][1]-ll.lng)*k,ay=(f.pts[i][0]-ll.lat)*110574,bx=(f.pts[i+1][1]-ll.lng)*k,by=(f.pts[i+1][0]-ll.lat)*110574;
+    const dx=bx-ax,dy=by-ay,L2=dx*dx+dy*dy,t=L2?Math.max(0,Math.min(1,-(ax*dx+ay*dy)/L2)):0,d=Math.hypot(ax+t*dx,ay+t*dy);
+    if(d<b.d)b={d,ll:L.latLng(ll.lat+(ay+t*dy)/110574,ll.lng+(ax+t*dx)/k),tags:f.tags}}
+  return b}
+function callout(ll,txt){L.circleMarker(ll,{radius:5,className:'dot',color:'#fff',weight:2,fillColor:'#12302e',fillOpacity:1}).addTo(SM);
+  L.marker(ll,{interactive:false,icon:L.divIcon({className:'',html:`<div class="co">${txt}</div>`,iconSize:null,iconAnchor:[-8,12]})}).addTo(SM)}
+async function route(a,b,color){const r=await fetch(`https://router.project-osrm.org/route/v1/driving/${a.lng},${a.lat};${b.lng},${b.lat}?overview=full&geometries=geojson`);
+  const j=await r.json();if(j.code!=='Ok')throw 0;const rt=j.routes[0];L.geoJSON(rt.geometry,{style:{color,weight:5,dashArray:'10 7'}}).addTo(SM);return rt}
+async function smart(){
+  if(!S.ll)await place(map.getCenter());const ll=S.ll;SM.clearLayers();hint('Menganalisis aksesibilitas sekitar lokasi…',0);
+  try{
+    const a=`(around:5000,${ll.lat},${ll.lng})`;
+    const q=`[out:json][timeout:30];(nwr${a}["place"~"village|hamlet|town|suburb|city"];nwr${a}["natural"="water"]["name"];nwr${a}["amenity"~"hospital|clinic|school|marketplace"];);out center tags 150;`;
+    const r=await fetch('https://overpass-api.de/api/interpreter',{method:'POST',body:'data='+encodeURIComponent(q)});if(!r.ok)throw 0;
+    const items=(await r.json()).elements.map(e=>({t:e.tags||{},ll:L.latLng(e.lat??e.center?.lat,e.lon??e.center?.lon)})).filter(x=>isFinite(x.ll.lat)).map(x=>({...x,d:map.distance(ll,x.ll)}));
+    const near=f=>items.filter(f).sort((p,q)=>p.d-q.d)[0];
+    const perm=near(x=>x.t.place),danau=near(x=>x.t.natural==='water'),kes=near(x=>/hospital|clinic/.test(x.t.amenity)),pasar=near(x=>x.t.amenity==='marketplace'),sek=near(x=>x.t.amenity==='school');
+    const b=ll.toBounds(4000);await Promise.all([ensure('roads',b),ensure('rivers',b)]);
+    const jl=nearestPt(ll,'roads'),sg=nearestPt(ll,'rivers');
+    if(jl.d<Infinity)callout(jl.ll,'🛣️ Jalan terdekat · '+fd(jl.d));
+    if(sg.d<Infinity)callout(sg.ll,'🌊 Sungai · '+fd(sg.d));
+    const nm=(x,i,l)=>x?`${i} ${x.t.name||l} · ${fd(x.d)}`:null;
+    [nm(perm,'🏠','Permukiman'),nm(danau,'💧','Danau / badan air'),nm(kes,'🏥','Fasilitas kesehatan')].forEach((s,i)=>{const x=[perm,danau,kes][i];if(s)callout(x.ll,s)});
+    const rts=await Promise.allSettled([perm&&route(ll,perm.ll,'#2563eb'),kes&&route(ll,kes.ll,'#dc2626')]);
+    const rv=i=>rts[i].status==='fulfilled'&&rts[i].value?rts[i].value:null;
+    const tt=x=>x?` (rute ${fd(x.distance)}, ±${Math.max(1,Math.round(x.duration/60))} mnt)`:'';
+    const lvl=jl.d<=100?'MUDAH':jl.d<=500?'SEDANG':'SULIT';
+    const row=(i,x,l)=>x?`${i} ${l}: ${x.t.name||'(tanpa nama)'}, ${fd(x.d)}`:`${i} ${l}: tidak ditemukan ≤ 5 km`;
+    S.extra=[`Penilaian aksesibilitas: ${lvl}`,
+      `🛣️ Jalan terdekat: ${jl.d<Infinity?fd(jl.d)+(jl.tags?.name?' ('+jl.tags.name+')':''):'data jalan belum tersedia'}`,
+      row('🏠',perm,'Permukiman')+tt(rv(0)),row('💧',danau,'Danau / badan air'),row('🏥',kes,'Kesehatan')+tt(rv(1)),row('🛒',pasar,'Pasar'),row('🏫',sek,'Sekolah'),
+      lvl==='SULIT'?'Catatan: lokasi jauh dari jalan, kemungkinan perlu akses jalan setapak/kendaraan roda dua.':''].filter(Boolean).join('\n');
+    panel();$('#hint').style.display='none';if(SM.getLayers().length)map.fitBounds(SM.getBounds().pad(.3),{maxZoom:17});
+  }catch(e){hint('Analisis cerdas gagal (server data sibuk). Coba lagi sebentar.');}
+}
+$('#bSmart').onclick=smart;
+
+/* ---------- Timelapse citra (arsip Esri World Imagery Wayback) ---------- */
+map.createPane('tlp').style.zIndex=250;
+let WB=null,fr=[],cur=0,tmr=null;
+async function wbInit(){if(WB)return;
+  const j=await (await fetch('https://s3-us-west-2.amazonaws.com/config.maptiles.arcgis.com/waybackconfig.json')).json(),by={};
+  for(const k in j){const m=(j[k].itemTitle||'').match(/(\d{4})-\d{2}-\d{2}/);if(!m)continue;const y=+m[1];
+    if(y>=2014&&(!by[y]||m[0]>by[y].d))by[y]={y,d:m[0],url:j[k].itemURL.replace('{level}','{z}').replace('{row}','{y}').replace('{col}','{x}')}}
+  WB=Object.values(by).sort((a,b)=>a.y-b.y)}
+function lyr(k){const f=fr[k];if(!f.l)f.l=L.tileLayer(f.url,{pane:'tlp',maxZoom:21,maxNativeZoom:18,crossOrigin:true,opacity:0}).addTo(map);return f.l}
+function showF(i){cur=i;lyr(i);lyr((i+1)%fr.length);fr.forEach((f,k)=>f.l&&f.l.setOpacity(k===i?1:0));$('#tr').value=i;$('#yr').textContent='Citra '+fr[i].y+' (arsip '+fr[i].d+')'}
+function stopT(){clearInterval(tmr);tmr=null;$('#tp').textContent='▶'}
+async function tlOpen(){
+  try{hint('Memuat daftar citra arsip…',0);await wbInit();if(!WB.length)throw 0}catch(e){return hint('Arsip citra tidak dapat dimuat. Periksa koneksi internet.')}
+  fr=WB.map(x=>({...x}));$('#tr').max=fr.length-1;$('#tl').style.display='flex';$('#yr').style.display='block';$('#bTl').classList.add('on');showF(0);hint('Geser slider atau tekan ▶. Zoom ke lokasi agar perubahan terlihat jelas.')}
+function tlClose(){stopT();fr.forEach(f=>f.l&&map.removeLayer(f.l));fr=[];$('#tl').style.display=$('#yr').style.display='none';$('#bTl').classList.remove('on')}
+$('#bTl').onclick=()=>fr.length?tlClose():tlOpen();$('#tx').onclick=tlClose;
+$('#tr').oninput=e=>{stopT();showF(+e.target.value)};
+$('#tp').onclick=()=>{if(tmr)return stopT();$('#tp').textContent='⏸';tmr=setInterval(()=>showF((cur+1)%fr.length),2000)};
+
+/* ---------- Detail ---------- */
+$('#det').onclick=()=>{$('#dtx').textContent=[S.ll?'Koordinat: '+cstr(S.ll)+'\n('+S.ll.lat.toFixed(6)+', '+S.ll.lng.toFixed(6)+')':'Belum ada lokasi dipilih.',
+  'Jarak ke jalan terdekat: '+fd(S.roadD),'Jarak ke sungai terdekat: '+fd(S.riverD),'Luas area analisis: '+(S.area?fa(S.area):'—'),S.extra].filter(Boolean).join('\n');$('#dlg').showModal()};
+</script>
+</body>
+</html>
