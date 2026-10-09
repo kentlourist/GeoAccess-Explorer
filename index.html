@@ -9,383 +9,319 @@
 :root{--teal:#0f5c58;--teal2:#14857e;--ink:#12302e;--mut:#6b7f7d;--line:#dde6e4;--bg:#f4f8f7}
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:#fff}
-body{display:grid;grid-template-rows:64px 1fr 64px;grid-template-columns:270px 1fr}
-header{grid-column:1/3;display:flex;align-items:center;gap:20px;padding:0 20px;border-bottom:1px solid var(--line);background:#fff;z-index:1100}
-.brand{display:flex;align-items:center;gap:10px;min-width:250px}
-.brand .lg{font-size:30px}.brand b{font-size:19px;color:var(--teal);display:block;line-height:1.1}.brand small{color:var(--mut);font-size:12px}
+body{display:grid;grid-template-rows:64px 1fr 64px;grid-template-columns:260px 1fr}
+header{grid-column:1/3;display:flex;align-items:center;gap:20px;padding:0 20px;border-bottom:1px solid var(--line);z-index:1100}
+.brand{display:flex;align-items:center;gap:10px;min-width:250px}.brand .lg{font-size:30px}.brand b{font-size:19px;color:var(--teal);display:block;line-height:1.1}.brand small{color:var(--mut);font-size:12px}
 .search{position:relative;flex:1;max-width:640px;display:flex}
-.search input{flex:1;border:1px solid var(--line);border-radius:6px 0 0 6px;padding:10px 12px;font:inherit;outline:none}
-.search input:focus{border-color:var(--teal2)}
+.search input{flex:1;border:1px solid var(--line);border-radius:6px 0 0 6px;padding:10px 12px;font:inherit;outline:none}.search input:focus{border-color:var(--teal2)}
 .search button{background:var(--teal);color:#fff;border:0;padding:0 18px;border-radius:0 6px 6px 0;cursor:pointer;font-size:16px}
 #res{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--line);border-radius:6px;box-shadow:0 8px 24px #0002;margin-top:4px;display:none;max-height:260px;overflow:auto}
 #res div{padding:9px 12px;cursor:pointer;border-bottom:1px solid var(--line);font-size:13px}#res div:hover{background:var(--bg)}
-.hbtns{margin-left:auto;display:flex;gap:6px}
-.ib{background:none;border:0;font-size:20px;cursor:pointer;padding:8px;border-radius:6px;color:var(--teal)}.ib:hover{background:var(--bg)}
+.hbtns{margin-left:auto;display:flex;gap:6px}.ib{background:none;border:0;font-size:20px;cursor:pointer;padding:8px;border-radius:6px}.ib:hover{background:var(--bg)}
 aside{overflow:auto;background:#fbfdfc;border-right:1px solid var(--line);padding:14px 12px}
-aside h3{margin:6px 4px 10px;font-size:13px;color:var(--teal);display:flex;align-items:center;gap:8px}
-.lyr{display:flex;align-items:center;gap:10px;padding:9px 8px;border-radius:6px;cursor:pointer;user-select:none}
-.lyr:hover{background:#eef4f3}.lyr input{accent-color:var(--teal);width:16px;height:16px}.lyr .ic{width:22px;text-align:center;font-size:18px}
-.tool{display:flex;width:100%;align-items:center;gap:10px;padding:11px 10px;margin-bottom:6px;background:#fff;border:1px solid var(--line);border-radius:6px;cursor:pointer;font:inherit;color:var(--ink);text-align:left}
-.tool:hover{border-color:var(--teal2)}.tool.on{background:var(--teal);color:#fff;border-color:var(--teal)}
-.tool span:last-child{margin-left:auto}
-.rad{display:flex;gap:6px;align-items:center;margin:-2px 0 8px;font-size:12px;color:var(--mut)}
-.rad input{width:80px;padding:5px;border:1px solid var(--line);border-radius:5px;font:inherit}
+aside h3{margin:6px 4px 10px;font-size:13px;color:var(--teal)}
+.lyr{display:flex;align-items:center;gap:10px;padding:9px 8px;border-radius:6px;cursor:pointer;user-select:none}.lyr:hover{background:#eef4f3}.lyr input{accent-color:var(--teal);width:16px;height:16px}.lyr .ic{width:22px;text-align:center;font-size:18px}
+.tool,.tool2{display:flex;width:100%;align-items:center;gap:10px;padding:11px 10px;margin-bottom:6px;background:#fff;border:1px solid var(--line);border-radius:6px;cursor:pointer;font:inherit;color:var(--ink);text-align:left}
+.tool:hover,.tool2:hover{border-color:var(--teal2)}.tool.on,.tool2.on{background:var(--teal);color:#fff;border-color:var(--teal)}.tool span:last-child{margin-left:auto}
+.rad{display:flex;gap:6px;align-items:center;margin:-2px 0 8px;font-size:12px;color:var(--mut)}.rad input{width:80px;padding:5px;border:1px solid var(--line);border-radius:5px;font:inherit}
 main{position:relative;min-height:0}
-#mapwrap{position:absolute;inset:0;background:#1d2b2a}
-#map{position:absolute;inset:0;background:#1d2b2a;cursor:crosshair}
+#mapwrap{position:absolute;inset:0;background:#1d2b2a}#map{position:absolute;inset:0;background:#1d2b2a;cursor:crosshair}
 .panel{position:absolute;z-index:1000;background:#fff;border-radius:8px;box-shadow:0 4px 18px #0004}
-#info{top:14px;right:14px;width:290px;padding:14px}
-#info h4{margin:0 0 10px;display:flex;justify-content:space-between;font-size:13px;color:var(--teal)}
-#info h4 span{cursor:pointer;color:var(--mut)}
+#info{top:14px;right:14px;width:300px;padding:14px;max-height:calc(100% - 28px);overflow:auto}
+#info h4{margin:0 0 10px;display:flex;justify-content:space-between;font-size:13px;color:var(--teal)}#info h4 span{cursor:pointer;color:var(--mut)}
 #info .r{display:flex;gap:10px;margin:9px 0}#info .r i{font-style:normal;width:20px}#info .r small{color:var(--mut);display:block}
-#extra{font-size:12px;color:var(--mut);border-top:1px solid var(--line);padding-top:8px;margin-top:8px;white-space:pre-line}
-.btn{background:var(--teal);color:#fff;border:1px solid var(--teal);border-radius:6px;padding:10px 16px;font:inherit;font-weight:600;cursor:pointer}
-.btn.o{background:#fff;color:var(--teal)}.btn:hover{filter:brightness(1.1)}
+#extra{font-size:12.5px;border-top:1px solid var(--line);padding-top:8px;margin-top:8px;white-space:pre-line}
+.btn{background:var(--teal);color:#fff;border:1px solid var(--teal);border-radius:6px;padding:10px 16px;font:inherit;font-weight:600;cursor:pointer}.btn.o{background:#fff;color:var(--teal)}.btn:hover{filter:brightness(1.1)}
 #info .btn{width:100%;margin-top:6px}
-#legend{left:14px;bottom:14px;padding:10px 14px;min-width:170px;font-size:12.5px}
-#legend b{display:flex;justify-content:space-between;cursor:pointer;margin-bottom:6px;font-size:13px}
-#legend div.i{display:flex;align-items:center;gap:9px;margin:5px 0}
-.sw{width:20px;height:6px;border-radius:3px;flex:none}.sw.f{height:14px;width:20px;border-radius:3px;border:1px solid #0003}
-#north{top:14px;right:330px;color:#fff;text-align:center;font-weight:700;text-shadow:0 1px 3px #000;font-size:12px;line-height:1}
-#north i{display:block;font-style:normal;font-size:34px}
-#scale{right:16px;bottom:30px;color:#fff;font-weight:600;text-shadow:0 1px 3px #000;text-align:center;background:none;box-shadow:none;font-size:12px}
-#scale div{height:7px;border:2px solid #fff;border-top:0;margin:2px auto 0}
+#legend{left:14px;bottom:14px;padding:10px 14px;min-width:170px;font-size:12.5px}#legend b{display:flex;justify-content:space-between;cursor:pointer;margin-bottom:6px}
+#legend .i{display:flex;align-items:center;gap:9px;margin:5px 0}.sy{width:22px;height:20px;flex:none}
+#scale{right:16px;bottom:30px;color:#fff;font-weight:600;text-shadow:0 1px 3px #000;text-align:center;background:none;box-shadow:none;font-size:12px}#scale div{height:7px;border:2px solid #fff;border-top:0;margin:2px auto 0}
+#north{top:14px;right:330px;color:#fff;text-shadow:0 1px 3px #000;font-weight:700;font-size:12px;text-align:center;line-height:1;background:none;box-shadow:none}#north i{display:block;font-style:normal;font-size:34px}
+#zoom{position:absolute;left:14px;top:14px;z-index:1000;display:flex;flex-direction:column;gap:8px}#zoom button{width:38px;height:38px;border:0;border-radius:6px;background:#fff;font-size:20px;cursor:pointer;box-shadow:0 2px 8px #0004}
 #attr{position:absolute;right:6px;bottom:3px;z-index:1000;font-size:10px;color:#fff;text-shadow:0 1px 2px #000}
-#zoom{position:absolute;left:14px;top:14px;z-index:1000;display:flex;flex-direction:column;gap:8px}
-#zoom button{width:38px;height:38px;border:0;border-radius:6px;background:#fff;font-size:20px;cursor:pointer;box-shadow:0 2px 8px #0004;color:var(--ink)}
 #hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:1000;background:#12302ee6;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;display:none;max-width:70%;text-align:center}
-.pin{width:26px;height:26px;border-radius:50% 50% 50% 0;background:#14b8a6;border:3px solid #fff;transform:rotate(-45deg);box-shadow:0 2px 6px #0007}
-.lbl{background:#fff;border:0;border-radius:14px;font-weight:600;padding:3px 10px;box-shadow:0 2px 6px #0004}.lbl:before{display:none}
-footer{grid-column:1/3;display:flex;align-items:center;gap:20px;padding:0 20px;border-top:1px solid var(--line);background:#fff;z-index:1100}
-footer .t{font-weight:700;color:var(--teal)}footer select{padding:9px;border:1px solid var(--line);border-radius:6px;font:inherit}
-footer label{display:flex;gap:6px;align-items:center;cursor:pointer}footer input[type=checkbox]{accent-color:var(--teal)}
-footer .sp{margin-left:auto;display:flex;gap:10px}
-dialog{border:0;border-radius:10px;padding:20px;max-width:420px;box-shadow:0 10px 40px #0006}dialog pre{white-space:pre-wrap;font:inherit;margin:10px 0}
-.tool2{display:flex;width:100%;align-items:center;gap:10px;padding:11px 10px;margin-bottom:6px;background:#fff;border:1px solid var(--line);border-radius:6px;cursor:pointer;font:inherit;color:var(--ink);text-align:left}.tool2:hover,.tool2.on{background:var(--teal);color:#fff}
-#info{max-height:calc(100% - 28px);overflow:auto}
-.co{background:#fff;border-radius:14px;padding:3px 10px;font-weight:600;font-size:12px;box-shadow:0 2px 6px #0005;white-space:nowrap;color:#12302e}
-.dot{border:2px solid #fff;border-radius:50%;background:#12302e}
-#tl{position:absolute;left:50%;bottom:60px;transform:translateX(-50%);z-index:1000;background:#fff;border-radius:24px;padding:8px 16px;box-shadow:0 4px 18px #0005;display:none;align-items:center;gap:12px;width:min(520px,80%)}
-#tl input{flex:1;accent-color:var(--teal)}#tl button{border:0;background:none;font-size:18px;cursor:pointer;color:var(--teal)}
 #yr{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:1000;background:#12302ee6;color:#fff;padding:6px 16px;border-radius:20px;font-weight:600;display:none}
-#lgb .sy{width:22px;height:20px;flex:none}
-@media(max-width:820px){body{grid-template-columns:1fr;grid-template-rows:auto 220px 1fr auto}header{grid-column:1;flex-wrap:wrap;padding:8px 12px;gap:8px}.brand{min-width:0}aside{grid-row:2;border-right:0}main{grid-row:3}footer{grid-column:1;flex-wrap:wrap;padding:8px 12px;gap:8px}#info{width:220px}#north{right:250px}footer .sp{margin-left:0}}
+#tl{position:absolute;left:50%;bottom:60px;transform:translateX(-50%);z-index:1000;background:#fff;border-radius:24px;padding:8px 16px;box-shadow:0 4px 18px #0005;display:none;align-items:center;gap:12px;width:min(520px,80%)}#tl input{flex:1;accent-color:var(--teal)}#tl button{border:0;background:none;font-size:18px;cursor:pointer;color:var(--teal)}
+.pin{width:26px;height:26px;border-radius:50% 50% 50% 0;background:#14b8a6;border:3px solid #fff;transform:rotate(-45deg);box-shadow:0 2px 6px #0007}
+.lbl,.co{background:#fff;border:0;border-radius:14px;font-weight:600;padding:3px 10px;box-shadow:0 2px 6px #0005;font-size:12px;white-space:nowrap;color:var(--ink)}.lbl:before{display:none}
+footer{grid-column:1/3;display:flex;align-items:center;gap:14px;padding:0 20px;border-top:1px solid var(--line);z-index:1100}
+footer .t{font-weight:700;color:var(--teal);white-space:nowrap}footer select,footer input[type=text]{padding:9px;border:1px solid var(--line);border-radius:6px;font:inherit}footer input[type=text]{width:190px}
+footer label{display:flex;gap:6px;align-items:center;cursor:pointer}footer input[type=checkbox]{accent-color:var(--teal)}footer .sp{margin-left:auto;display:flex;gap:10px}
+dialog{border:0;border-radius:10px;padding:20px;max-width:min(92vw,1100px);box-shadow:0 10px 40px #0006}dialog img{width:100%;border:1px solid var(--line)}
+@media(max-width:900px){body{grid-template-columns:1fr;grid-template-rows:auto 200px 1fr auto}header{grid-column:1;flex-wrap:wrap;padding:8px 12px;gap:8px}.brand{min-width:0}aside{border-right:0}footer{grid-column:1;flex-wrap:wrap;padding:8px 12px;gap:8px}footer .sp{margin-left:0}#info{width:230px}#north{right:260px}}
 </style>
 </head>
 <body>
 <header>
   <div class="brand"><span class="lg">🌏</span><div><b>GeoAccess Explorer</b><small>WebGIS Analisis Aksesibilitas Lokasi</small></div></div>
   <div class="search"><input id="q" placeholder="Cari lokasi, alamat, atau koordinat…" autocomplete="off"><button id="go" title="Cari">🔍</button><div id="res"></div></div>
-  <div class="hbtns"><button class="ib" id="bBase" title="Ganti peta dasar">🗺️</button><button class="ib" id="bDl" title="Unduh peta (PNG)">⬇️</button><button class="ib" id="bSet" title="Kualitas ekspor">⚙️</button></div>
+  <div class="hbtns"><button class="ib" id="bBase" title="Ganti peta dasar">🗺️</button><button class="ib" id="bDl" title="Ekspor layout (PNG)">⬇️</button><button class="ib" id="bSet" title="Kualitas ekspor">⚙️</button></div>
 </header>
-
 <aside>
-  <h3>LAYER PETA</h3><div id="layers"></div>
-  <h3 style="margin-top:22px">ANALISIS AKSESIBILITAS</h3>
+  <h3>LAYER PETA</h3>
+  <label class="lyr"><input type="checkbox" id="sat" checked><span class="ic">🖼️</span>Citra Satelit</label>
+  <label class="lyr"><input type="checkbox" id="c_roads" checked><span class="ic">🛣️</span>Jaringan Jalan</label>
+  <label class="lyr"><input type="checkbox" id="c_rivers" checked><span class="ic">🌊</span>Sungai</label>
+  <h3 style="margin-top:20px">ANALISIS AKSESIBILITAS</h3>
+  <button class="tool2" id="bSmart"><span>🧠</span>Analisis Cerdas Lokasi</button>
   <button class="tool" data-m="measure"><span>📏</span>Ukur Jarak<span>›</span></button>
   <button class="tool" data-m="route"><span>🧭</span>Analisis Rute<span>›</span></button>
   <button class="tool" data-m="radius"><span>🎯</span>Radius Layanan<span>›</span></button>
   <div class="rad">Radius <input id="rad" type="number" value="500" min="50" step="50"> meter</div>
   <button class="tool" data-m="area"><span>⬚</span>Gambar Area Analisis<span>›</span></button>
-  <h3 style="margin-top:22px">ASISTEN &amp; TIMELAPSE</h3>
-  <button class="tool2" id="bSmart"><span>🧠</span>Analisis Cerdas Lokasi</button>
+  <h3 style="margin-top:20px">TIMELAPSE</h3>
   <button class="tool2" id="bTl"><span>🕒</span>Timelapse Citra</button>
 </aside>
-
 <main>
 <div id="mapwrap">
   <div id="map"></div>
-  <div id="zoom" class="noexp"><button id="zi">+</button><button id="zo">−</button><button id="loc" title="Lokasi saya">⌖</button></div>
-  <div id="north" class="panel" style="background:none;box-shadow:none"><i>▲</i>N</div>
+  <div id="zoom"><button id="zi">+</button><button id="zo">−</button><button id="loc" title="Lokasi saya">⌖</button></div>
+  <div id="north" class="panel"><i>▲</i>N</div>
   <div id="legend" class="panel"><b>Legenda <span>⌃</span></b><div id="lgb"></div></div>
-  <div id="scale" class="panel"><span id="sl">0 – 500 m</span><div id="sb"></div></div>
+  <div id="scale" class="panel"><span id="sl"></span><div id="sb"></div></div>
   <div id="attr">Citra: Esri, Maxar, Earthstar Geographics | Data: © OpenStreetMap contributors</div>
-  <div id="info" class="panel noexp">
+  <div id="info" class="panel">
     <h4>📍 INFORMASI LOKASI <span id="xi">✕</span></h4>
     <div class="r"><i>📍</i><div id="ic">Klik peta untuk memilih lokasi</div></div>
     <div class="r"><i>🛣️</i><div><small>Jarak ke jalan:</small><b id="ir">—</b></div></div>
     <div class="r"><i>🌊</i><div><small>Jarak ke sungai:</small><b id="iv">—</b></div></div>
     <div class="r"><i>⬚</i><div><small>Luas area:</small><b id="ia">—</b></div></div>
     <div id="extra"></div>
-    <button class="btn" id="det">ⓘ Lihat detail</button>
+    <button class="btn" id="det">🧠 Jalankan analisis cerdas</button>
   </div>
   <div id="yr"></div>
-  <div id="tl" class="noexp"><button id="tp" title="Putar / jeda">▶</button><input type="range" id="tr" min="0" max="0" value="0"><button id="tx" title="Tutup timelapse">✕</button></div>
-  <div id="hint" class="noexp"></div>
+  <div id="tl"><button id="tp">▶</button><input type="range" id="tr" min="0" max="0" value="0"><button id="tx">✕</button></div>
+  <div id="hint"></div>
 </div>
 </main>
-
 <footer>
-  <span class="t">📄 LAYOUT &amp; UNDUH PETA</span>
+  <span class="t">📄 LAYOUT PETA</span>
+  <input type="text" id="ttl" placeholder="Judul peta (opsional)">
   <select id="fmt"><option value="a4-l">A4 Landscape</option><option value="a4-p">A4 Portrait</option><option value="a3-l">A3 Landscape</option></select>
-  <label><input type="checkbox" id="cLg" checked>Legenda</label>
-  <label><input type="checkbox" id="cNo" checked>Arah Utara</label>
-  <label><input type="checkbox" id="cSc" checked>Skala</label>
-  <div class="sp"><button class="btn o" id="bPdf">⬇ Unduh PDF</button><button class="btn" id="bPng">🖼 Ekspor PNG</button></div>
+  <label><input type="checkbox" id="cLg" checked>Legenda</label><label><input type="checkbox" id="cNo" checked>Arah Utara</label><label><input type="checkbox" id="cSc" checked>Skala</label>
+  <div class="sp"><button class="btn o" id="bPrev">🔎 Pratinjau</button><button class="btn o" id="bPdf">⬇ Unduh PDF</button><button class="btn" id="bPng">🖼 Ekspor PNG</button></div>
 </footer>
-
-<dialog id="dlg"><b>Detail lokasi</b><pre id="dtx"></pre><button class="btn" onclick="dlg.close()">Tutup</button></dialog>
+<dialog id="dlg"><img id="dimg" alt="Pratinjau layout"><p><button class="btn" onclick="dlg.close()">Tutup</button></p></dialog>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-const $=s=>document.querySelector(s);
+const $=s=>document.querySelector(s),TEAL='#0f5c58';
 const map=L.map('map',{zoomControl:false,attributionControl:false,doubleClickZoom:false,maxZoom:21}).setView([-3.2125,103.7575],16);
 
-/* ---------- Peta dasar (citra resolusi tinggi) ---------- */
-const esri='https://server.arcgisonline.com/ArcGIS/rest/services/';
-const base={
-  sat:L.tileLayer(esri+'World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:21,maxNativeZoom:19,detectRetina:true,crossOrigin:true}),
-  lbl:L.tileLayer(esri+'Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{maxZoom:21,maxNativeZoom:19,crossOrigin:true}),
-  osm:L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:21,maxNativeZoom:19,crossOrigin:true})};
-const modes=[['Citra satelit',['sat']],['Citra satelit + nama tempat',['sat','lbl']],['Peta jalan OSM',['osm']]];
-let bm=0,satOn=true;
-function applyBase(){Object.values(base).forEach(l=>map.removeLayer(l));if(satOn)modes[bm][1].forEach(k=>base[k].addTo(map).bringToBack())}
-applyBase();
+/* ---------- Peta dasar ---------- */
+const esri='https://server.arcgisonline.com/ArcGIS/rest/services/',tl=(u,o={})=>L.tileLayer(u,{maxZoom:21,maxNativeZoom:19,crossOrigin:true,...o});
+const base={sat:tl(esri+'World_Imagery/MapServer/tile/{z}/{y}/{x}',{detectRetina:true}),lbl:tl(esri+'Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}'),osm:tl('https://tile.openstreetmap.org/{z}/{x}/{y}.png')};
+const modes=[['Citra satelit',['sat']],['Citra satelit + nama tempat',['sat','lbl']],['Peta jalan OSM',['osm']]];let bm=0,satOn=true;
+function applyBase(){Object.values(base).forEach(l=>map.removeLayer(l));if(satOn)modes[bm][1].forEach(k=>base[k].addTo(map).bringToBack())}applyBase();
 $('#bBase').onclick=()=>{bm=(bm+1)%3;satOn=true;$('#sat').checked=true;applyBase();hint('Peta dasar: '+modes[bm][0])};
-
-/* ---------- Layer data OSM (Overpass) ---------- */
-const PAL={farmland:'#a3e635',paddy:'#a3e635',orchard:'#84cc16',forest:'#166534',wood:'#166534',scrub:'#4d7c0f',grassland:'#65a30d',grass:'#65a30d',meadow:'#65a30d',residential:'#fb923c',water:'#38bdf8',wetland:'#2dd4bf',farmyard:'#d9f99d',plantation:'#4d7c0f'};
-const CATS={
- landcover:{n:'Tutupan Lahan',ic:'🌳',z:410,q:['way["landuse"]','way["natural"~"wood|scrub|wetland|water|grassland"]'],poly:1,
-   st:t=>{const c=PAL[t.landuse]||PAL[t.natural]||'#94a3b8';return{color:c,weight:1,fillColor:c,fillOpacity:.35}},lb:t=>'Tutupan lahan: '+(t.landuse||t.natural)},
- rivers:{n:'Sungai',ic:'🌊',z:420,q:['way["waterway"~"river|stream|canal|drain"]'],st:()=>({color:'#0ea5e9',weight:3.5}),lb:t=>t.name||'Sungai / saluran air'},
- buildings:{n:'Bangunan / Rumah',ic:'🏠',z:430,q:['way["building"]'],poly:1,st:()=>({color:'#b91c1c',weight:1,fillColor:'#ef4444',fillOpacity:.6}),lb:t=>t.name||'Bangunan'},
- roads:{n:'Jaringan Jalan',ic:'🛣️',z:440,q:['way["highway"]'],st:t=>({color:'#f59e0b',weight:/primary|secondary|trunk/.test(t.highway)?4.5:2.5}),lb:t=>t.name||'Jalan ('+t.highway+')'},
- facilities:{n:'Fasilitas Umum',ic:'🏛️',z:450,q:['node["amenity"]'],lb:t=>(t.name||'Fasilitas')+' ('+t.amenity+')'}};
-const data={},loaded={},G={};
-for(const c in CATS){map.createPane(c).style.zIndex=CATS[c].z;G[c]=L.layerGroup()}
-const order=[['sat','Citra Satelit','🖼️'],['roads'],['rivers'],['buildings'],['landcover'],['facilities'],['area','Area Analisis','⬚']];
-$('#layers').innerHTML=order.map(([id,n,ic])=>`<label class="lyr"><input type="checkbox" id="${id==='sat'?'sat':'c_'+id}" ${id==='facilities'?'':'checked'}><span class="ic">${ic||CATS[id].ic}</span>${n||CATS[id].n}</label>`).join('');
-const areaGrp=L.layerGroup().addTo(map);
-
-async function load(c,b){
-  const bb=[b.getSouth(),b.getWest(),b.getNorth(),b.getEast()].join(',');
-  const q='[out:json][timeout:30];('+CATS[c].q.map(s=>s+'('+bb+');').join('')+');out geom;';
-  const r=await fetch('https://overpass-api.de/api/interpreter',{method:'POST',body:'data='+encodeURIComponent(q)});
-  if(!r.ok)throw new Error('Overpass '+r.status);
-  const j=await r.json();
-  data[c]=j.elements.map(e=>e.type==='node'?{tags:e.tags||{},pt:[e.lat,e.lon]}:(e.geometry?{tags:e.tags||{},pts:e.geometry.map(g=>[g.lat,g.lon])}:null)).filter(Boolean);
-  loaded[c]=b;render(c);
-}
-function render(c){
-  G[c].clearLayers();const C=CATS[c];
-  data[c].forEach(f=>{const t=f.tags;let l;
-    if(f.pt)l=L.circleMarker(f.pt,{pane:c,radius:6,color:'#fff',weight:2,fillColor:'#7c3aed',fillOpacity:1});
-    else{const o={...C.st(t),pane:c};const closed=C.poly&&f.pts.length>3&&f.pts[0][0]===f.pts.at(-1)[0]&&f.pts[0][1]===f.pts.at(-1)[1];
-      l=closed?L.polygon(f.pts,o):L.polyline(f.pts,o)}
-    l.bindTooltip(C.lb(t),{sticky:true});G[c].addLayer(l)});
-}
-async function ensure(c,b){if(!loaded[c]||!loaded[c].contains(b))await load(c,b.pad(.25))}
-let tm;
-function refresh(){clearTimeout(tm);tm=setTimeout(async()=>{
-  if(map.getZoom()<14){if(Object.keys(CATS).some(c=>map.hasLayer(G[c])))hint('Perbesar peta (zoom ≥ 14) untuk memuat data layer');return}
-  for(const c in CATS)if(map.hasLayer(G[c])){try{await ensure(c,map.getBounds())}catch(e){hint('Gagal memuat data '+CATS[c].n+'. Coba lagi sebentar.')}}},500)}
-for(const c in CATS){const cb=$('#c_'+c);const sync=()=>{cb.checked?(G[c].addTo(map),refresh()):map.removeLayer(G[c])};cb.onchange=sync;if(cb.checked)G[c].addTo(map)}
 $('#sat').onchange=e=>{satOn=e.target.checked;applyBase()};
-$('#c_area').onchange=e=>e.target.checked?areaGrp.addTo(map):map.removeLayer(areaGrp);
+
+/* ---------- Sumber data: OpenStreetMap via Overpass (dengan server cadangan) ---------- */
+const OVP=['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter','https://overpass.private.coffee/api/interpreter'];
+async function ovp(q){let err;for(let t=0;t<2;t++)for(const u of OVP){try{const r=await fetch(u,{method:'POST',body:'data='+encodeURIComponent(q),signal:AbortSignal.timeout(28000)});if(r.ok)return await r.json()}catch(e){err=e}}throw err||new Error('overpass')}
+const geo=els=>els.filter(e=>e.geometry).map(e=>({tags:e.tags||{},pts:e.geometry.map(p=>[p.lat,p.lon])}));
+const MOTOR=/^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|living_street|track|[a-z]+_link)$/,MAIN=/^(motorway|trunk|primary|secondary|tertiary)/;
+const CATS={
+ roads:{z:14,pane:440,q:z=>[z>=17?'way["highway"]["highway"!~"steps|corridor|pedestrian"]':'way["highway"~"motorway|trunk|primary|secondary|tertiary|residential|unclassified"]'],
+   st:t=>({color:'#f59e0b',weight:MAIN.test(t.highway)?5:2.8,opacity:.95}),lb:t=>t.name||'Jalan ('+t.highway+')'},
+ rivers:{z:12,pane:420,q:()=>['way["waterway"~"river|stream|canal|drain|ditch|riverbank"]','way["natural"="water"]'],
+   st:t=>t.waterway&&t.waterway!=='riverbank'?{color:'#0ea5e9',weight:3.5}:{color:'#0284c7',weight:1,fillColor:'#38bdf8',fillOpacity:.45},lb:t=>t.name||'Sungai / badan air'}};
+const data={},loaded={},G={};
+for(const c in CATS){map.createPane(c).style.zIndex=CATS[c].pane;G[c]=L.layerGroup().addTo(map)}
+function render(c){G[c].clearLayers();(data[c]||[]).forEach(f=>{const o={...CATS[c].st(f.tags),pane:c},p=f.pts,
+  closed=p.length>3&&p[0][0]===p.at(-1)[0]&&p[0][1]===p.at(-1)[1]&&(f.tags.natural||f.tags.waterway==='riverbank');
+  (closed?L.polygon(p,o):L.polyline(p,o)).bindTooltip(CATS[c].lb(f.tags),{sticky:true}).addTo(G[c])})}
+async function load(c,b,k){const bb=[b.getSouth(),b.getWest(),b.getNorth(),b.getEast()].join(',');
+  const j=await ovp('[out:json][timeout:25];('+CATS[c].q(k).map(s=>s+'('+bb+');').join('')+');out geom;');
+  data[c]=geo(j.elements);loaded[c]={b,k};render(c);return data[c].length}
+let tm;function refresh(){clearTimeout(tm);tm=setTimeout(async()=>{const z=map.getZoom();
+  for(const c in CATS){if(!map.hasLayer(G[c]))continue;
+    if(z<CATS[c].z){hint('Perbesar peta (zoom ≥ '+CATS[c].z+') untuk memuat '+(c==='roads'?'jaringan jalan':'sungai'));continue}
+    const L0=loaded[c],k=z>=17?17:0;if(L0&&L0.k===k&&L0.b.contains(map.getBounds()))continue;
+    try{hint('Memuat data '+(c==='roads'?'jalan':'sungai')+'…',0);const n=await load(c,map.getBounds().pad(.2),k);hint(n+' objek '+(c==='roads'?'jalan':'sungai/badan air')+' dimuat')}
+    catch(e){hint('Server data OSM sibuk. Geser peta sedikit untuk mencoba lagi.')}}},500)}
+for(const c in CATS)$('#c_'+c).onchange=e=>e.target.checked?(G[c].addTo(map),refresh()):map.removeLayer(G[c]);
 map.on('moveend',()=>{refresh();scaleBar()});refresh();
 
 /* ---------- Utilitas ---------- */
 let ht;function hint(t,ms=3500){const h=$('#hint');h.textContent=t;h.style.display='block';clearTimeout(ht);if(ms)ht=setTimeout(()=>h.style.display='none',ms)}
-const dms=(v,p,n)=>{const h=v>=0?p:n;v=Math.abs(v);const d=Math.floor(v),m=Math.floor((v-d)*60),s=Math.round(((v-d)*60-m)*60);return `${d}° ${m}' ${s}" ${h}`};
+const dms=(v,p,n)=>{const h=v>=0?p:n;v=Math.abs(v);let d=Math.floor(v),m=Math.floor((v-d)*60),s=Math.round(((v-d)*60-m)*60);if(s==60){s=0;m++}return `${d}° ${m}' ${s}" ${h}`};
 const cstr=ll=>dms(ll.lat,'LU','LS')+', '+dms(ll.lng,'BT','BB');
 const fd=m=>m==null||!isFinite(m)?'—':m<1000?Math.round(m)+' m':(m/1000).toFixed(2)+' km';
 const fa=m=>m>=10000?(m/10000).toFixed(2)+' ha ('+Math.round(m).toLocaleString('id-ID')+' m²)':Math.round(m).toLocaleString('id-ID')+' m²';
 function polyArea(p){const k=Math.cos(p.reduce((s,x)=>s+x.lat,0)/p.length*Math.PI/180)*111320;let a=0;for(let i=0;i<p.length;i++){const q=p[(i+1)%p.length];a+=p[i].lng*k*q.lat*110574-q.lng*k*p[i].lat*110574}return Math.abs(a)/2}
-function minDist(ll,c){let best=Infinity;const k=Math.cos(ll.lat*Math.PI/180)*111320;
-  for(const f of data[c]||[])for(let i=0;i<(f.pts||[]).length-1;i++){
-    const ax=(f.pts[i][1]-ll.lng)*k,ay=(f.pts[i][0]-ll.lat)*110574,bx=(f.pts[i+1][1]-ll.lng)*k,by=(f.pts[i+1][0]-ll.lat)*110574;
-    const dx=bx-ax,dy=by-ay,L2=dx*dx+dy*dy;let t=L2?Math.max(0,Math.min(1,-(ax*dx+ay*dy)/L2)):0;
-    best=Math.min(best,Math.hypot(ax+t*dx,ay+t*dy))}
-  return best}
-const S={ll:null,area:null,extra:'',roadD:null,riverD:null};
-function panel(){$('#ic').textContent=S.ll?cstr(S.ll):'Klik peta untuk memilih lokasi';$('#ir').textContent=fd(S.roadD);$('#iv').textContent=fd(S.riverD);$('#ia').textContent=S.area?fa(S.area):'—';$('#extra').textContent=S.extra}
+function nearestPt(ll,arr){let b={d:Infinity};const k=Math.cos(ll.lat*Math.PI/180)*111320;
+  for(const f of arr)for(let i=0;i<f.pts.length-1;i++){
+    const ax=(f.pts[i][1]-ll.lng)*k,ay=(f.pts[i][0]-ll.lat)*110574,bx=(f.pts[i+1][1]-ll.lng)*k,by=(f.pts[i+1][0]-ll.lat)*110574,dx=bx-ax,dy=by-ay,L2=dx*dx+dy*dy,t=L2?Math.max(0,Math.min(1,-(ax*dx+ay*dy)/L2)):0,d=Math.hypot(ax+t*dx,ay+t*dy);
+    if(d<b.d)b={d,ll:L.latLng(ll.lat+(ay+t*dy)/110574,ll.lng+(ax+t*dx)/k),tags:f.tags}}
+  return b}
+const HW={motorway:'Jalan tol',trunk:'Jalan arteri nasional',primary:'Jalan arteri',secondary:'Jalan kolektor',tertiary:'Jalan kolektor lokal',unclassified:'Jalan lokal',residential:'Jalan permukiman',service:'Jalan layanan',living_street:'Jalan lingkungan',track:'Jalan tanah / usaha tani',path:'Jalan setapak',footway:'Jalan setapak'};
+const cls=x=>x.tags?(HW[(x.tags.highway||'').replace('_link','')]||x.tags.highway||'—'):'—';
+const S={ll:null,area:null,extra:'',roadD:null,riverD:null,rep:null};
+const repText=()=>(S.rep?S.rep.rows.map(r=>r[0]+': '+r[1]).join('\n')+(S.extra?'\n\n':''):'')+S.extra;
+function panel(){$('#ic').textContent=S.ll?cstr(S.ll):'Klik peta untuk memilih lokasi';$('#ir').textContent=fd(S.roadD);$('#iv').textContent=fd(S.riverD);$('#ia').textContent=S.area?fa(S.area):'—';$('#extra').textContent=repText()}
 
-/* ---------- Lokasi analisis ---------- */
-let pin;
+/* ---------- Lokasi analisis & data sekitar ---------- */
+let pin,A=null,tk=0;const SM=L.featureGroup().addTo(map);
+async function probe(ll){
+  const rq=r=>`[out:json][timeout:25];way(around:${r},${ll.lat},${ll.lng})["highway"]["highway"!~"steps|corridor"];out geom;`;
+  const [r1,rv]=await Promise.all([ovp(rq(1000)),ovp(`[out:json][timeout:25];way(around:4000,${ll.lat},${ll.lng})["waterway"~"river|stream|canal|drain|ditch"];out geom;`)]);
+  let roads=geo(r1.elements);if(!roads.length)roads=geo((await ovp(rq(4000))).elements);
+  const motor=roads.filter(f=>MOTOR.test(f.tags.highway)),rivers=geo(rv.elements);
+  A={ll,roads,rivers,road:nearestPt(ll,motor.length?motor:roads),river:nearestPt(ll,rivers),main:nearestPt(ll,roads.filter(f=>MAIN.test(f.tags.highway)))}}
 async function place(ll){
-  ll=L.latLng(ll);S.ll=ll;S.roadD=S.riverD=null;panel();
+  ll=L.latLng(ll);S.ll=ll;S.roadD=S.riverD=null;S.rep=null;S.extra='';A=null;SM.clearLayers();panel();
   if(pin)map.removeLayer(pin);
-  pin=L.marker(ll,{icon:L.divIcon({className:'',html:'<div class="pin"></div>',iconSize:[26,26],iconAnchor:[13,26]})}).addTo(map)
-    .bindTooltip('Lokasi Analisis',{permanent:true,direction:'right',offset:[12,-14],className:'lbl'});
-  try{const b=ll.toBounds(3000);await Promise.all([ensure('roads',b),ensure('rivers',b)]);S.roadD=minDist(ll,'roads');S.riverD=minDist(ll,'rivers');panel()}
-  catch(e){hint('Data jalan/sungai belum bisa dimuat (server Overpass sibuk).')}
-}
+  pin=L.marker(ll,{icon:L.divIcon({className:'',html:'<div class="pin"></div>',iconSize:[26,26],iconAnchor:[13,26]})}).addTo(map).bindTooltip('Lokasi Analisis',{permanent:true,direction:'right',offset:[12,-14],className:'lbl'});
+  const my=++tk;try{await probe(ll);if(my!==tk)return;S.roadD=A.road.d;S.riverD=A.river.d;panel()}catch(e){hint('Data jalan/sungai belum bisa dimuat. Klik lokasi lagi untuk mencoba ulang.')}}
+
+/* ---------- Analisis cerdas (berbasis aturan: jalan & sungai OSM) ---------- */
+function callout(ll,txt){L.circleMarker(ll,{radius:5,color:'#fff',weight:2,fillColor:'#12302e',fillOpacity:1}).addTo(SM);
+  L.marker(ll,{interactive:false,icon:L.divIcon({className:'',html:`<div class="co">${txt}</div>`,iconSize:null,iconAnchor:[-8,12]})}).addTo(SM)}
+async function route(a,b,color){const j=await (await fetch(`https://router.project-osrm.org/route/v1/driving/${a.lng},${a.lat};${b.lng},${b.lat}?overview=full&geometries=geojson`)).json();
+  if(j.code!=='Ok')throw 0;L.geoJSON(j.routes[0].geometry,{style:{color,weight:5,opacity:.9}}).addTo(SM);return j.routes[0]}
+async function smart(){
+  if(!S.ll)await place(map.getCenter());const ll=S.ll;hint('Menganalisis jalan dan sungai di sekitar lokasi…',0);SM.clearLayers();
+  try{
+    if(!A||A.ll!==ll)await probe(ll);const {road,river,main}=A,rn=x=>x.tags.name||'(tanpa nama)';
+    if(road.d<Infinity){L.polyline([ll,road.ll],{color:'#f59e0b',weight:3,dashArray:'5 5'}).addTo(SM);callout(road.ll,'🛣️ '+rn(road)+' · '+fd(road.d))}
+    if(river.d<Infinity){L.polyline([ll,river.ll],{color:'#0ea5e9',weight:3,dashArray:'5 5'}).addTo(SM);callout(river.ll,'🌊 '+(river.tags.name||'Sungai')+' · '+fd(river.d))}
+    let rt=null;if(main.d<Infinity&&main.d>40){try{rt=await route(ll,main.ll,'#2563eb')}catch(e){}callout(main.ll,'🧭 Jalan utama · '+fd(main.d))}
+    let len=0;A.roads.forEach(f=>{for(let i=0;i<f.pts.length-1;i++){const a=L.latLng(f.pts[i]),b=L.latLng(f.pts[i+1]);if(map.distance(ll,L.latLng((a.lat+b.lat)/2,(a.lng+b.lng)/2))<=1000)len+=map.distance(a,b)}});
+    const dens=(len/1000/Math.PI).toFixed(1),d=road.d,lv=d===Infinity?['BELUM TERDATA','#6b7f7d']:d<=50?['SANGAT MUDAH','#16a34a']:d<=150?['MUDAH','#16a34a']:d<=500?['SEDANG','#f59e0b']:['SULIT','#dc2626'];
+    const rows=[['Penilaian aksesibilitas',lv[0],lv[1]],['Jalan terdekat',d<Infinity?rn(road)+' – '+fd(d):'tidak ditemukan ≤ 4 km'],['Jenis jalan',cls(road)],
+      ['Jalan utama terdekat',main.d<Infinity?`${rn(main)} – ${fd(main.d)}`+(rt?` (rute ±${Math.max(1,Math.round(rt.duration/60))} mnt)`:''):'tidak ditemukan ≤ 4 km'],
+      ['Sungai terdekat',river.d<Infinity?(river.tags.name||'tanpa nama')+' – '+fd(river.d):'tidak ditemukan ≤ 4 km'],['Kerapatan jalan (r = 1 km)',dens+' km/km²']];
+    if(d>500)rows.push(['Catatan','Lokasi jauh dari jalan; akses kemungkinan lewat jalan setapak atau kendaraan roda dua.']);
+    S.rep={rows,lvl:lv};panel();$('#hint').style.display='none';if(SM.getLayers().length)map.fitBounds(SM.getBounds().pad(.3),{maxZoom:18});
+  }catch(e){hint('Analisis gagal (server data sibuk atau tidak ada koneksi). Coba lagi sebentar.')}}
+$('#bSmart').onclick=$('#det').onclick=smart;
 
 /* ---------- Alat analisis ---------- */
 const D=L.layerGroup().addTo(map);let mode=null,pts=[];
 const tips={area:'Klik untuk menambah titik area, klik ganda untuk selesai',measure:'Klik untuk menambah titik, klik ganda untuk selesai',route:'Klik titik awal lalu titik tujuan',radius:'Klik lokasi pusat radius layanan'};
-document.querySelectorAll('.tool').forEach(b=>b.onclick=()=>{mode=mode===b.dataset.m?null:b.dataset.m;pts=[];D.clearLayers();
-  document.querySelectorAll('.tool').forEach(x=>x.classList.toggle('on',x.dataset.m===mode));mode?hint(tips[mode],0):($('#hint').style.display='none')});
+document.querySelectorAll('.tool').forEach(b=>b.onclick=()=>{mode=mode===b.dataset.m?null:b.dataset.m;pts=[];D.clearLayers();document.querySelectorAll('.tool').forEach(x=>x.classList.toggle('on',x.dataset.m===mode));mode?hint(tips[mode],0):$('#hint').style.display='none'});
+const len=()=>pts.reduce((s,p,i)=>i?s+map.distance(pts[i-1],p):0,0);
 function redraw(){D.clearLayers();pts.forEach(p=>L.circleMarker(p,{radius:5,color:'#fff',fillColor:'#f97316',fillOpacity:1,weight:2}).addTo(D));
   if(mode==='area'&&pts.length>1)L.polygon(pts,{color:'#f97316',weight:3,dashArray:'8 6',fillOpacity:.12}).addTo(D);
   if(mode==='measure'&&pts.length>1){L.polyline(pts,{color:'#fde047',weight:3}).addTo(D);S.extra='Jarak terukur: '+fd(len())+' ('+pts.length+' titik)';panel()}}
-const len=()=>pts.reduce((s,p,i)=>i?s+map.distance(pts[i-1],p):0,0);
-map.on('click',e=>{
-  if(!mode)return place(e.latlng);
-  pts.push(e.latlng);redraw();
-  if(mode==='radius')doRadius(e.latlng);
-  if(mode==='route'&&pts.length===2)doRoute()});
-map.on('dblclick',()=>{
-  if(mode==='area'&&pts.length>2){pts.pop();finishArea()}
-  if(mode==='measure'&&pts.length>1){pts.pop();redraw();hint('Jarak total: '+fd(len()))}});
-async function finishArea(){
-  const a=polyArea(pts);areaGrp.clearLayers();
-  L.polygon(pts,{color:'#f97316',weight:3,dashArray:'8 6',fillColor:'#f97316',fillOpacity:.12}).addTo(areaGrp);
-  const c=L.latLng(pts.reduce((s,p)=>s+p.lat,0)/pts.length,pts.reduce((s,p)=>s+p.lng,0)/pts.length);
-  $('#c_area').checked=true;areaGrp.addTo(map);D.clearLayers();pts=[];
-  await place(c);S.area=a;S.extra='Jarak dihitung dari pusat area analisis.';panel();hint('Luas area: '+fa(a));
-}
-async function doRadius(ll){
-  const r=Math.max(50,+$('#rad').value||500);D.clearLayers();
-  L.circle(ll,{radius:r,color:'#14b8a6',weight:2,fillOpacity:.12}).addTo(D);
-  S.extra='Memuat data dalam radius…';panel();
-  try{const b=ll.toBounds(r*2.2);await Promise.all(['buildings','facilities','roads'].map(c=>ensure(c,b)));
-    const inR=c=>(data[c]||[]).filter(f=>map.distance(ll,f.pt||f.pts[0])<=r).length;
-    S.extra=`Radius layanan ${fd(r)}\nLuas: ${fa(Math.PI*r*r)}\nBangunan: ${inR('buildings')}\nFasilitas umum: ${inR('facilities')}\nRuas jalan: ${inR('roads')}`}
-  catch(e){S.extra='Data radius gagal dimuat.'}
-  panel();pts=[];
-}
-async function doRoute(){
-  const [a,b]=pts;S.extra='Menghitung rute…';panel();
-  try{const r=await fetch(`https://router.project-osrm.org/route/v1/driving/${a.lng},${a.lat};${b.lng},${b.lat}?overview=full&geometries=geojson`);const j=await r.json();
-    if(j.code!=='Ok')throw 0;const rt=j.routes[0];L.geoJSON(rt.geometry,{style:{color:'#2563eb',weight:5}}).addTo(D);
-    S.extra=`Rute (kendaraan)\nJarak: ${fd(rt.distance)}\nWaktu tempuh: ±${Math.round(rt.duration/60)} menit`}
-  catch(e){S.extra='Rute tidak ditemukan. Pastikan kedua titik dekat jalan.'}
-  panel();pts=[];
-}
+map.on('click',e=>{if(!mode)return place(e.latlng);pts.push(e.latlng);redraw();if(mode==='radius')doRadius(e.latlng);if(mode==='route'&&pts.length===2)doRoute()});
+map.on('dblclick',()=>{if(mode==='area'&&pts.length>2){pts.pop();finishArea()}if(mode==='measure'&&pts.length>1){pts.pop();redraw();hint('Jarak total: '+fd(len()))}});
+async function finishArea(){const a=polyArea(pts);const c=L.latLng(pts.reduce((s,p)=>s+p.lat,0)/pts.length,pts.reduce((s,p)=>s+p.lng,0)/pts.length);
+  D.clearLayers();L.polygon(pts,{color:'#f97316',weight:3,dashArray:'8 6',fillColor:'#f97316',fillOpacity:.12}).addTo(D);pts=[];
+  await place(c);S.area=a;S.extra='Jarak dihitung dari pusat area analisis.';panel();hint('Luas area: '+fa(a))}
+async function doRadius(ll){const r=Math.max(50,+$('#rad').value||500);D.clearLayers();L.circle(ll,{radius:r,color:'#14b8a6',weight:2,fillOpacity:.12}).addTo(D);S.extra='Memuat jalan dalam radius…';panel();
+  try{const j=await ovp(`[out:json][timeout:25];(way(around:${r},${ll.lat},${ll.lng})["highway"]["highway"!~"steps|corridor"];way(around:${r},${ll.lat},${ll.lng})["waterway"~"river|stream|canal|drain|ditch"];);out geom;`);
+    let L1=0,nm=new Set,rv=0;j.elements.forEach(e=>{if(!e.geometry)return;if(!e.tags.highway)return rv++;if(e.tags.name)nm.add(e.tags.name);for(let i=0;i<e.geometry.length-1;i++){const a=L.latLng(e.geometry[i].lat,e.geometry[i].lon),b=L.latLng(e.geometry[i+1].lat,e.geometry[i+1].lon);if(map.distance(ll,a)<=r)L1+=map.distance(a,b)}});
+    S.extra=`Radius layanan ${fd(r)} (${fa(Math.PI*r*r)})\nPanjang jalan: ${(L1/1000).toFixed(2)} km\nKerapatan jalan: ${(L1/1000/(Math.PI*(r/1000)**2)).toFixed(1)} km/km²\nJalan bernama: ${nm.size}\nSegmen sungai: ${rv}`}
+  catch(e){S.extra='Data radius gagal dimuat. Coba lagi.'}panel();pts=[]}
+async function doRoute(){const [a,b]=pts;S.extra='Menghitung rute…';panel();
+  try{const rt=await route(a,b,'#2563eb');S.extra=`Rute kendaraan\nJarak: ${fd(rt.distance)}\nWaktu tempuh: ±${Math.round(rt.duration/60)} menit`}catch(e){S.extra='Rute tidak ditemukan. Pastikan kedua titik dekat jalan.'}panel();pts=[]}
 
-/* ---------- Pencarian lokasi ---------- */
-async function search(){
-  const q=$('#q').value.trim();if(!q)return;const res=$('#res');
-  const m=q.match(/^(-?\d+(?:\.\d+)?)\s*[,;\s]\s*(-?\d+(?:\.\d+)?)$/);
+/* ---------- Pencarian ---------- */
+async function search(){const q=$('#q').value.trim();if(!q)return;const res=$('#res'),m=q.match(/^(-?\d+(?:\.\d+)?)\s*[,;\s]\s*(-?\d+(?:\.\d+)?)$/);
   if(m){res.style.display='none';map.setView([+m[1],+m[2]],18);return place([+m[1],+m[2]])}
   res.style.display='block';res.innerHTML='<div>Mencari…</div>';
-  try{const r=await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=6&accept-language=id&q='+encodeURIComponent(q));const j=await r.json();
+  try{const j=await (await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=6&accept-language=id&q='+encodeURIComponent(q))).json();
     res.innerHTML=j.length?'':'<div>Lokasi tidak ditemukan. Coba kata kunci lain.</div>';
-    j.forEach(x=>{const d=document.createElement('div');d.textContent=x.display_name;d.onclick=()=>{res.style.display='none';
-      const bb=x.boundingbox.map(Number);map.fitBounds([[bb[0],bb[2]],[bb[1],bb[3]]],{maxZoom:18});place([+x.lat,+x.lon])};res.appendChild(d)})}
-  catch(e){res.innerHTML='<div>Pencarian gagal. Periksa koneksi internet.</div>'}
-}
-$('#go').onclick=search;$('#q').onkeydown=e=>{if(e.key==='Enter')search()};
-document.addEventListener('click',e=>{if(!e.target.closest('.search'))$('#res').style.display='none'});
+    j.forEach(x=>{const d=document.createElement('div');d.textContent=x.display_name;d.onclick=()=>{res.style.display='none';const b=x.boundingbox.map(Number);map.fitBounds([[b[0],b[2]],[b[1],b[3]]],{maxZoom:18});place([+x.lat,+x.lon])};res.appendChild(d)})}
+  catch(e){res.innerHTML='<div>Pencarian gagal. Periksa koneksi internet.</div>'}}
+$('#go').onclick=search;$('#q').onkeydown=e=>{if(e.key==='Enter')search()};document.addEventListener('click',e=>{if(!e.target.closest('.search'))$('#res').style.display='none'});
 
-/* ---------- Kontrol peta & overlay layout ---------- */
-$('#zi').onclick=()=>map.zoomIn();$('#zo').onclick=()=>map.zoomOut();
-$('#loc').onclick=()=>map.locate({setView:true,maxZoom:18});
+/* ---------- Kontrol & legenda ---------- */
+$('#zi').onclick=()=>map.zoomIn();$('#zo').onclick=()=>map.zoomOut();$('#loc').onclick=()=>map.locate({setView:true,maxZoom:18});
 map.on('locationfound',e=>place(e.latlng));map.on('locationerror',()=>hint('Lokasi perangkat tidak dapat diakses.'));
-$('#xi').onclick=()=>$('#info').style.display='none';
-$('#legend b').onclick=()=>{const g=$('#lgb');g.style.display=g.style.display==='none'?'':'none'};
-const LG=[['Lokasi Analisis','#14b8a6','f'],['Jaringan jalan','#f59e0b'],['Sungai','#0ea5e9'],['Bangunan / rumah','#ef4444','f'],['Sawah / lahan tani','#a3e635','f'],['Hutan / vegetasi','#166534','f'],['Permukiman','#fb923c','f'],['Area analisis','#f97316','f'],['Fasilitas umum','#7c3aed','f']];
-$('#lgb').innerHTML=LG.map(([n,c,f])=>`<div class="i"><span class="sw ${f||''}" style="background:${c}"></span>${n}</div>`).join('');
-$('#cLg').onchange=e=>$('#legend').style.display=e.target.checked?'':'none';
-$('#cNo').onchange=e=>$('#north').style.display=e.target.checked?'':'none';
-$('#cSc').onchange=e=>$('#scale').style.display=e.target.checked?'':'none';
-function scaleBar(){const y=map.getSize().y/2,p1=map.containerPointToLatLng([0,y]),p2=map.containerPointToLatLng([100,y]);
-  const mpp=map.distance(p1,p2)/100;const n=[5,10,20,25,50,100,200,250,500,1000,2000,5000,10000,20000,50000].find(v=>v/mpp>=90)||50000;
-  $('#sb').style.width=Math.round(n/mpp)+'px';$('#sl').textContent='0 – '+(n>=1000?n/1000+' km':n+' m')}
-scaleBar();
-
-/* ---------- Ekspor peta & layout ---------- */
-let SC=2;
-$('#bSet').onclick=()=>{SC=SC%3+1;hint('Kualitas ekspor: '+SC+'× (makin besar makin tajam, makin berat)')};
-async function snap(){hint('Menyiapkan gambar peta…',0);
-  const c=await html2canvas($('#mapwrap'),{useCORS:true,scale:SC,backgroundColor:'#1d2b2a',logging:false,
-    ignoreElements:el=>el.classList&&(el.classList.contains('noexp')||el.classList.contains('leaflet-control-container'))});
-  $('#hint').style.display='none';return c}
-function save(url,name){const a=document.createElement('a');a.href=url;a.download=name;a.click()}
-const stamp=()=>new Date().toISOString().slice(0,10);
-async function exPng(){try{const c=await snap();save(c.toDataURL('image/png'),`geoaccess-${stamp()}.png`)}catch(e){hint('Ekspor gagal. Coba kurangi kualitas ekspor (ikon ⚙️).')}}
-$('#bPng').onclick=$('#bDl').onclick=exPng;
-$('#bPdf').onclick=async()=>{
-  try{const c=await snap();const [f,o]=$('#fmt').value.split('-');
-    const pdf=new jspdf.jsPDF({orientation:o,unit:'mm',format:f});const W=pdf.internal.pageSize.getWidth(),H=pdf.internal.pageSize.getHeight(),m=10;
-    pdf.setFontSize(16);pdf.setTextColor(15,92,88);pdf.text('GeoAccess Explorer - Peta Aksesibilitas Lokasi',m,m+5);
-    const top=m+10,bot=34,aw=W-2*m,ah=H-top-bot,r=c.width/c.height;let w=aw,h=w/r;if(h>ah){h=ah;w=h*r}
-    pdf.addImage(c.toDataURL('image/jpeg',.92),'JPEG',m+(aw-w)/2,top,w,h);pdf.setDrawColor(15,92,88);pdf.rect(m+(aw-w)/2,top,w,h);
-    const lines=[S.ll?'Lokasi analisis: '+cstr(S.ll):'Pusat peta: '+cstr(map.getCenter()),
-      `Jarak ke jalan: ${fd(S.roadD)}   |   Jarak ke sungai: ${fd(S.riverD)}   |   Luas area: ${S.area?fa(S.area):'-'}`,
-      ...(S.extra?[S.extra.replace(/\n/g,'; ')]:[]),
-      'Citra: Esri, Maxar, Earthstar Geographics | Data: OpenStreetMap contributors | Dicetak '+stamp()];
-    pdf.setFontSize(9);pdf.setTextColor(50);pdf.text(lines,m,top+h+6);pdf.save(`geoaccess-${stamp()}.pdf`)}
-  catch(e){hint('Ekspor PDF gagal. Coba kurangi kualitas ekspor (ikon ⚙️).')}};
-
-/* ---------- Legenda ringkas dengan simbol ---------- */
+$('#xi').onclick=()=>$('#info').style.display='none';$('#legend b').onclick=()=>{const g=$('#lgb');g.style.display=g.style.display==='none'?'':'none'};
 const sv=b=>`<svg class="sy" viewBox="0 0 20 20">${b}</svg>`;
-const LG2=[
- ['Lokasi analisis',sv('<path d="M10 1a6 6 0 0 0-6 6c0 4.5 6 12 6 12s6-7.5 6-12a6 6 0 0 0-6-6z" fill="#14b8a6" stroke="#fff"/><circle cx="10" cy="7" r="2.2" fill="#fff"/>')],
- ['Jalan',sv('<path d="M1 15L19 5" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>')],
- ['Sungai',sv('<path d="M1 11q4-7 6 0t6 0 6 0" fill="none" stroke="#0ea5e9" stroke-width="3" stroke-linecap="round"/>')],
- ['Danau / badan air',sv('<ellipse cx="10" cy="10" rx="9" ry="6" fill="#38bdf8" stroke="#0284c7" stroke-width="1.5"/>')],
- ['Permukiman',sv('<path d="M2 10L10 3l8 7v7H2z" fill="#ef4444"/><rect x="8" y="12" width="4" height="5" fill="#fff"/>')],
- ['Rute',sv('<path d="M1 10h18" stroke="#2563eb" stroke-width="3" stroke-dasharray="4 3"/>')]];
-$('#lgb').innerHTML=LG2.map(([n,s])=>`<div class="i">${s}${n}</div>`).join('');
+const LG=[['Lokasi analisis',sv('<path d="M10 1a6 6 0 0 0-6 6c0 4.5 6 12 6 12s6-7.5 6-12a6 6 0 0 0-6-6z" fill="#14b8a6" stroke="#fff"/><circle cx="10" cy="7" r="2.2" fill="#fff"/>')],
+ ['Jaringan jalan',sv('<path d="M1 15L19 5" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>')],
+ ['Sungai / badan air',sv('<path d="M1 11q4-7 6 0t6 0 6 0" fill="none" stroke="#0ea5e9" stroke-width="3" stroke-linecap="round"/>')],
+ ['Rute kendaraan',sv('<path d="M1 10h18" stroke="#2563eb" stroke-width="3.5"/>')],
+ ['Jarak terdekat',sv('<path d="M1 10h18" stroke="#12302e" stroke-width="2.5" stroke-dasharray="3 3"/>')],
+ ['Area analisis',sv('<rect x="2" y="4" width="16" height="12" fill="#f9731633" stroke="#f97316" stroke-width="2" stroke-dasharray="3 2"/>')]];
+$('#lgb').innerHTML=LG.map(([n,s])=>`<div class="i">${s}${n}</div>`).join('');
+$('#cLg').onchange=e=>$('#legend').style.display=e.target.checked?'':'none';$('#cNo').onchange=e=>$('#north').style.display=e.target.checked?'':'none';$('#cSc').onchange=e=>$('#scale').style.display=e.target.checked?'':'none';
+const mpp=()=>{const y=map.getSize().y/2;return map.distance(map.containerPointToLatLng([0,y]),map.containerPointToLatLng([100,y]))/100};
+const NICE=[5,10,20,25,50,100,200,250,500,1000,2000,5000,10000,20000,50000,100000];
+function scaleBar(){const m=mpp(),n=NICE.find(v=>v/m>=90)||1e5;$('#sb').style.width=Math.round(n/m)+'px';$('#sl').textContent='0 – '+(n>=1000?n/1000+' km':n+' m')}scaleBar();
 
-/* ---------- Analisis Cerdas (berbasis aturan + data OSM) ---------- */
-const SM=L.featureGroup().addTo(map);
-function nearestPt(ll,c){let b={d:Infinity};const k=Math.cos(ll.lat*Math.PI/180)*111320;
-  for(const f of data[c]||[])for(let i=0;i<(f.pts||[]).length-1;i++){
-    const ax=(f.pts[i][1]-ll.lng)*k,ay=(f.pts[i][0]-ll.lat)*110574,bx=(f.pts[i+1][1]-ll.lng)*k,by=(f.pts[i+1][0]-ll.lat)*110574;
-    const dx=bx-ax,dy=by-ay,L2=dx*dx+dy*dy,t=L2?Math.max(0,Math.min(1,-(ax*dx+ay*dy)/L2)):0,d=Math.hypot(ax+t*dx,ay+t*dy);
-    if(d<b.d)b={d,ll:L.latLng(ll.lat+(ay+t*dy)/110574,ll.lng+(ax+t*dx)/k),tags:f.tags}}
-  return b}
-function callout(ll,txt){L.circleMarker(ll,{radius:5,className:'dot',color:'#fff',weight:2,fillColor:'#12302e',fillOpacity:1}).addTo(SM);
-  L.marker(ll,{interactive:false,icon:L.divIcon({className:'',html:`<div class="co">${txt}</div>`,iconSize:null,iconAnchor:[-8,12]})}).addTo(SM)}
-async function route(a,b,color){const r=await fetch(`https://router.project-osrm.org/route/v1/driving/${a.lng},${a.lat};${b.lng},${b.lat}?overview=full&geometries=geojson`);
-  const j=await r.json();if(j.code!=='Ok')throw 0;const rt=j.routes[0];L.geoJSON(rt.geometry,{style:{color,weight:5,dashArray:'10 7'}}).addTo(SM);return rt}
-async function smart(){
-  if(!S.ll)await place(map.getCenter());const ll=S.ll;SM.clearLayers();hint('Menganalisis aksesibilitas sekitar lokasi…',0);
-  try{
-    const a=`(around:5000,${ll.lat},${ll.lng})`;
-    const q=`[out:json][timeout:30];(nwr${a}["place"~"village|hamlet|town|suburb|city"];nwr${a}["natural"="water"]["name"];nwr${a}["amenity"~"hospital|clinic|school|marketplace"];);out center tags 150;`;
-    const r=await fetch('https://overpass-api.de/api/interpreter',{method:'POST',body:'data='+encodeURIComponent(q)});if(!r.ok)throw 0;
-    const items=(await r.json()).elements.map(e=>({t:e.tags||{},ll:L.latLng(e.lat??e.center?.lat,e.lon??e.center?.lon)})).filter(x=>isFinite(x.ll.lat)).map(x=>({...x,d:map.distance(ll,x.ll)}));
-    const near=f=>items.filter(f).sort((p,q)=>p.d-q.d)[0];
-    const perm=near(x=>x.t.place),danau=near(x=>x.t.natural==='water'),kes=near(x=>/hospital|clinic/.test(x.t.amenity)),pasar=near(x=>x.t.amenity==='marketplace'),sek=near(x=>x.t.amenity==='school');
-    const b=ll.toBounds(4000);await Promise.all([ensure('roads',b),ensure('rivers',b)]);
-    const jl=nearestPt(ll,'roads'),sg=nearestPt(ll,'rivers');
-    if(jl.d<Infinity)callout(jl.ll,'🛣️ Jalan terdekat · '+fd(jl.d));
-    if(sg.d<Infinity)callout(sg.ll,'🌊 Sungai · '+fd(sg.d));
-    const nm=(x,i,l)=>x?`${i} ${x.t.name||l} · ${fd(x.d)}`:null;
-    [nm(perm,'🏠','Permukiman'),nm(danau,'💧','Danau / badan air'),nm(kes,'🏥','Fasilitas kesehatan')].forEach((s,i)=>{const x=[perm,danau,kes][i];if(s)callout(x.ll,s)});
-    const rts=await Promise.allSettled([perm&&route(ll,perm.ll,'#2563eb'),kes&&route(ll,kes.ll,'#dc2626')]);
-    const rv=i=>rts[i].status==='fulfilled'&&rts[i].value?rts[i].value:null;
-    const tt=x=>x?` (rute ${fd(x.distance)}, ±${Math.max(1,Math.round(x.duration/60))} mnt)`:'';
-    const lvl=jl.d<=100?'MUDAH':jl.d<=500?'SEDANG':'SULIT';
-    const row=(i,x,l)=>x?`${i} ${l}: ${x.t.name||'(tanpa nama)'}, ${fd(x.d)}`:`${i} ${l}: tidak ditemukan ≤ 5 km`;
-    S.extra=[`Penilaian aksesibilitas: ${lvl}`,
-      `🛣️ Jalan terdekat: ${jl.d<Infinity?fd(jl.d)+(jl.tags?.name?' ('+jl.tags.name+')':''):'data jalan belum tersedia'}`,
-      row('🏠',perm,'Permukiman')+tt(rv(0)),row('💧',danau,'Danau / badan air'),row('🏥',kes,'Kesehatan')+tt(rv(1)),row('🛒',pasar,'Pasar'),row('🏫',sek,'Sekolah'),
-      lvl==='SULIT'?'Catatan: lokasi jauh dari jalan, kemungkinan perlu akses jalan setapak/kendaraan roda dua.':''].filter(Boolean).join('\n');
-    panel();$('#hint').style.display='none';if(SM.getLayers().length)map.fitBounds(SM.getBounds().pad(.3),{maxZoom:17});
-  }catch(e){hint('Analisis cerdas gagal (server data sibuk). Coba lagi sebentar.');}
-}
-$('#bSmart').onclick=smart;
-
-/* ---------- Timelapse citra (arsip Esri World Imagery Wayback) ---------- */
-map.createPane('tlp').style.zIndex=250;
-let WB=null,fr=[],cur=0,tmr=null;
-async function wbInit(){if(WB)return;
-  const j=await (await fetch('https://s3-us-west-2.amazonaws.com/config.maptiles.arcgis.com/waybackconfig.json')).json(),by={};
-  for(const k in j){const m=(j[k].itemTitle||'').match(/(\d{4})-\d{2}-\d{2}/);if(!m)continue;const y=+m[1];
-    if(y>=2014&&(!by[y]||m[0]>by[y].d))by[y]={y,d:m[0],url:j[k].itemURL.replace('{level}','{z}').replace('{row}','{y}').replace('{col}','{x}')}}
+/* ---------- Timelapse (arsip Esri Wayback) ---------- */
+map.createPane('tlp').style.zIndex=250;let WB=null,fr=[],cur=0,tmr=null;
+async function wbInit(){if(WB)return;const j=await (await fetch('https://s3-us-west-2.amazonaws.com/config.maptiles.arcgis.com/waybackconfig.json')).json(),by={};
+  for(const k in j){const m=(j[k].itemTitle||'').match(/(\d{4})-\d{2}-\d{2}/);if(!m)continue;const y=+m[1];if(y>=2014&&(!by[y]||m[0]>by[y].d))by[y]={y,d:m[0],url:j[k].itemURL.replace('{level}','{z}').replace('{row}','{y}').replace('{col}','{x}')}}
   WB=Object.values(by).sort((a,b)=>a.y-b.y)}
-function lyr(k){const f=fr[k];if(!f.l)f.l=L.tileLayer(f.url,{pane:'tlp',maxZoom:21,maxNativeZoom:18,crossOrigin:true,opacity:0}).addTo(map);return f.l}
+const lyr=k=>{const f=fr[k];if(!f.l)f.l=L.tileLayer(f.url,{pane:'tlp',maxZoom:21,maxNativeZoom:18,crossOrigin:true,opacity:0}).addTo(map)};
 function showF(i){cur=i;lyr(i);lyr((i+1)%fr.length);fr.forEach((f,k)=>f.l&&f.l.setOpacity(k===i?1:0));$('#tr').value=i;$('#yr').textContent='Citra '+fr[i].y+' (arsip '+fr[i].d+')'}
 function stopT(){clearInterval(tmr);tmr=null;$('#tp').textContent='▶'}
-async function tlOpen(){
-  try{hint('Memuat daftar citra arsip…',0);await wbInit();if(!WB.length)throw 0}catch(e){return hint('Arsip citra tidak dapat dimuat. Periksa koneksi internet.')}
+async function tlOpen(){try{hint('Memuat daftar citra arsip…',0);await wbInit();if(!WB.length)throw 0}catch(e){return hint('Arsip citra tidak dapat dimuat. Periksa koneksi internet.')}
   fr=WB.map(x=>({...x}));$('#tr').max=fr.length-1;$('#tl').style.display='flex';$('#yr').style.display='block';$('#bTl').classList.add('on');showF(0);hint('Geser slider atau tekan ▶. Zoom ke lokasi agar perubahan terlihat jelas.')}
 function tlClose(){stopT();fr.forEach(f=>f.l&&map.removeLayer(f.l));fr=[];$('#tl').style.display=$('#yr').style.display='none';$('#bTl').classList.remove('on')}
-$('#bTl').onclick=()=>fr.length?tlClose():tlOpen();$('#tx').onclick=tlClose;
-$('#tr').oninput=e=>{stopT();showF(+e.target.value)};
+$('#bTl').onclick=()=>fr.length?tlClose():tlOpen();$('#tx').onclick=tlClose;$('#tr').oninput=e=>{stopT();showF(+e.target.value)};
 $('#tp').onclick=()=>{if(tmr)return stopT();$('#tp').textContent='⏸';tmr=setInterval(()=>showF((cur+1)%fr.length),2000)};
 
-/* ---------- Detail ---------- */
-$('#det').onclick=()=>{$('#dtx').textContent=[S.ll?'Koordinat: '+cstr(S.ll)+'\n('+S.ll.lat.toFixed(6)+', '+S.ll.lng.toFixed(6)+')':'Belum ada lokasi dipilih.',
-  'Jarak ke jalan terdekat: '+fd(S.roadD),'Jarak ke sungai terdekat: '+fd(S.riverD),'Luas area analisis: '+(S.area?fa(S.area):'—'),S.extra].filter(Boolean).join('\n');$('#dlg').showModal()};
+/* ---------- Layout peta lengkap (kanvas) ---------- */
+let SC=2;$('#bSet').onclick=()=>{SC=SC%3+1;hint('Kualitas ekspor: '+SC+'× (makin besar makin tajam, makin berat)')};
+const stamp=()=>new Date().toISOString().slice(0,10),F='system-ui,Segoe UI,Arial,sans-serif';
+const SYM=[ // simbol legenda untuk kanvas
+ ['Lokasi analisis',(g,x,y,u)=>{g.fillStyle='#14b8a6';g.strokeStyle='#fff';g.lineWidth=u*.3;g.beginPath();g.arc(x+4*u,y,2.3*u,0,7);g.fill();g.stroke()}],
+ ['Jaringan jalan',(g,x,y,u)=>{g.strokeStyle='#f59e0b';g.lineWidth=u;g.lineCap='round';g.beginPath();g.moveTo(x,y+u);g.lineTo(x+8*u,y-u);g.stroke()}],
+ ['Sungai / badan air',(g,x,y,u)=>{g.strokeStyle='#0ea5e9';g.lineWidth=u;g.beginPath();g.moveTo(x,y);g.quadraticCurveTo(x+2*u,y-3*u,x+4*u,y);g.quadraticCurveTo(x+6*u,y+3*u,x+8*u,y);g.stroke()}],
+ ['Rute kendaraan',(g,x,y,u)=>{g.strokeStyle='#2563eb';g.lineWidth=1.1*u;g.beginPath();g.moveTo(x,y);g.lineTo(x+8*u,y);g.stroke()}],
+ ['Jarak terdekat',(g,x,y,u)=>{g.strokeStyle='#12302e';g.lineWidth=.8*u;g.setLineDash([u,u]);g.beginPath();g.moveTo(x,y);g.lineTo(x+8*u,y);g.stroke();g.setLineDash([])}],
+ ['Area analisis',(g,x,y,u)=>{g.strokeStyle='#f97316';g.lineWidth=.7*u;g.setLineDash([u,.6*u]);g.strokeRect(x,y-2*u,8*u,4*u);g.setLineDash([])}]];
+async function layout(){
+  hint('Menyusun layout peta…',0);
+  const shot=await html2canvas($('#map'),{useCORS:true,scale:SC,backgroundColor:'#1d2b2a',logging:false,ignoreElements:e=>e.classList&&e.classList.contains('leaflet-control-container')});
+  const [f,o]=$('#fmt').value.split('-'),land=o==='l',P=8,mm=f==='a3'?[420,297]:[297,210],[W,H]=(land?mm:[mm[1],mm[0]]).map(v=>v*P),M=9*P;
+  const c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');g.textBaseline='top';
+  g.fillStyle='#fff';g.fillRect(0,0,W,H);
+  const HH=(land?20:22)*P;g.fillStyle=TEAL;g.fillRect(0,0,W,HH);g.fillStyle='#fff';
+  g.font=`700 ${(land?7.5:7)*P}px ${F}`;g.fillText($('#ttl').value||'Peta Aksesibilitas Lokasi',M,HH*.14);
+  g.font=`${3.2*P}px ${F}`;const ctr=S.ll||map.getCenter();
+  g.fillText(`GeoAccess Explorer  |  ${cstr(ctr)}  |  ${fr.length?'Citra arsip '+fr[cur].y:'Citra satelit Esri terbaru'}  |  ${new Date().toLocaleDateString('id-ID',{dateStyle:'long'})}`,M,HH*.6);
+  const gap=M*.6,pw=land?W*.3:0,ph=land?0:H*.3;
+  const fx=M,fy=HH+gap,fw=W-2*M-(land?pw+gap:0),fh=H-fy-M-(land?0:ph+gap);
+  const k=Math.max(fw/shot.width,fh/shot.height),dw=shot.width*k,dh=shot.height*k;
+  g.save();g.beginPath();g.rect(fx,fy,fw,fh);g.clip();g.drawImage(shot,fx+(fw-dw)/2,fy+(fh-dh)/2,dw,dh);g.restore();
+  g.strokeStyle=TEAL;g.lineWidth=.7*P;g.strokeRect(fx,fy,fw,fh);
+  const halo=(t,x,y,al='left')=>{g.font=`600 ${2.6*P}px ${F}`;g.textAlign=al;g.lineWidth=.8*P;g.strokeStyle='#fffffff0';g.strokeText(t,x,y);g.fillStyle=TEAL;g.fillText(t,x,y);g.textAlign='left'};
+  const cw=shot.width/SC,ch=shot.height/SC,vw=fw/(k*SC),vh=fh/(k*SC),x0=(cw-vw)/2,y0=(ch-vh)/2,pl=(x,y)=>map.containerPointToLatLng([x0+x,y0+y]),fmt=l=>l.lat.toFixed(4)+', '+l.lng.toFixed(4);
+  halo(fmt(pl(0,0)),fx+1.5*P,fy+1.5*P);halo(fmt(pl(vw,0)),fx+fw-1.5*P,fy+1.5*P,'right');halo(fmt(pl(0,vh)),fx+1.5*P,fy+fh-4.5*P);halo(fmt(pl(vw,vh)),fx+fw-1.5*P,fy+fh-4.5*P,'right');
+  const mpc=mpp()/(SC*k);  // meter per piksel kanvas
+  if($('#cNo').checked){const cx=fx+fw-9*P,cy=fy+14*P;g.fillStyle='#fffffff0';g.beginPath();g.arc(cx,cy,5.5*P,0,7);g.fill();g.fillStyle=TEAL;g.beginPath();g.moveTo(cx,cy-4.2*P);g.lineTo(cx+2.6*P,cy+3*P);g.lineTo(cx,cy+1.4*P);g.lineTo(cx-2.6*P,cy+3*P);g.fill();g.font=`700 ${2.8*P}px ${F}`;g.textAlign='center';g.fillText('N',cx,cy-9.6*P+1*P);g.textAlign='left'}
+  const n=NICE.find(v=>v/mpc>=fw*.16)||1e5,sw=n/mpc,sx=fx+3*P,sy=fy+fh-13*P;
+  if($('#cSc').checked){g.fillStyle='#fffffff0';g.fillRect(sx-2*P,sy-5*P,sw+14*P,10.5*P);for(let i=0;i<4;i++){g.fillStyle=i%2?'#fff':'#12302e';g.fillRect(sx+i*sw/4,sy,sw/4,1.6*P)}g.strokeStyle='#12302e';g.lineWidth=.25*P;g.strokeRect(sx,sy,sw,1.6*P);
+    g.fillStyle='#12302e';g.font=`${2.4*P}px ${F}`;const L2=v=>v>=1000?v/1000+' km':v+' m';g.textAlign='center';g.fillText('0',sx,sy+2.4*P);g.fillText(L2(n/2),sx+sw/2,sy+2.4*P);g.fillText(L2(n),sx+sw,sy+2.4*P);g.textAlign='left'}
+  const ratio=Math.round(mpc*P*1000/50)*50;
+  /* kotak informasi */
+  const fs=2.9*P,lh=fs*1.4,pad=2.4*P;
+  const wrap=(t,w)=>{g.font=`${fs}px ${F}`;const out=[];String(t).split('\n').forEach(p=>{let l='';p.split(' ').forEach(wd=>{const nn=l?l+' '+wd:wd;if(g.measureText(nn).width>w&&l){out.push(l);l=wd}else l=nn});out.push(l)});return out};
+  const sec=(x,y,w,title,rows,legend)=>{
+    const it=legend?[]:rows.map(r=>({l:r[0],c:r[2],t:wrap(r[1],w-2*pad)}));
+    const body=legend?SYM.length*lh*1.25:it.reduce((s,r)=>s+(r.l?lh*.9:0)+r.t.length*lh+lh*.25,0),h=5.6*P+body+pad;
+    g.fillStyle='#f6faf9';g.fillRect(x,y,w,h);g.strokeStyle='#cfdcda';g.lineWidth=.3*P;g.strokeRect(x,y,w,h);g.fillStyle=TEAL;g.fillRect(x,y,w,5.6*P);
+    g.fillStyle='#fff';g.font=`700 ${3*P}px ${F}`;g.fillText(title,x+pad,y+1.3*P);let yy=y+5.6*P+pad*.6;
+    if(legend)SYM.forEach(([t,d])=>{d(g,x+pad,yy+lh*.5,P*.8);g.fillStyle='#12302e';g.font=`${fs}px ${F}`;g.fillText(t,x+pad+9*P,yy);yy+=lh*1.25});
+    else it.forEach(r=>{if(r.l){g.fillStyle='#6b7f7d';g.font=`${fs*.82}px ${F}`;g.fillText(r.l,x+pad,yy);yy+=lh*.9}g.fillStyle=r.c||'#12302e';g.font=`${r.c?'700 ':''}${fs}px ${F}`;r.t.forEach(s=>{g.fillText(s,x+pad,yy);yy+=lh});yy+=lh*.25});
+    return h};
+  const info=[['Koordinat',S.ll?cstr(S.ll):'(belum dipilih – pusat peta) '+cstr(map.getCenter())],['Desimal (lat, lon)',(S.ll||map.getCenter()).lat.toFixed(6)+', '+(S.ll||map.getCenter()).lng.toFixed(6)],['Skala cetak (perkiraan)','1 : '+ratio.toLocaleString('id-ID')],['Sistem koordinat','WGS 84 / Web Mercator']];
+  if(S.area)info.push(['Luas area analisis',fa(S.area)]);
+  const ana=S.rep?[...S.rep.rows]:[['Jarak ke jalan',fd(S.roadD)],['Jarak ke sungai',fd(S.riverD)],['Catatan','Jalankan "Analisis Cerdas Lokasi" untuk hasil lengkap.']];
+  if(S.extra)ana.push(['Hasil alat analisis',S.extra]);
+  const note=[['Sumber data','Citra: Esri World Imagery (Maxar, Earthstar Geographics). Jalan & sungai: OpenStreetMap contributors. Hasil bersifat indikatif dan bergantung kelengkapan data.']];
+  const px=fx+fw+gap,pwid=W-M-px;
+  if(land){let y=fy;y+=sec(px,y,pwid,'INFORMASI LOKASI',info)+gap*.6;y+=sec(px,y,pwid,'ANALISIS AKSESIBILITAS',ana)+gap*.6;if($('#cLg').checked)y+=sec(px,y,pwid,'LEGENDA',0,1)+gap*.6;sec(px,y,pwid,'CATATAN',note)}
+  else{const cw3=(W-2*M-2*gap)/3,y=fy+fh+gap;sec(M,y,cw3,'INFORMASI LOKASI',info);sec(M+cw3+gap,y,cw3,'ANALISIS AKSESIBILITAS',ana);
+    let yy=y;if($('#cLg').checked)yy+=sec(M+2*(cw3+gap),y,cw3,'LEGENDA',0,1)+gap*.5;sec(M+2*(cw3+gap),yy,cw3,'CATATAN',note)}
+  $('#hint').style.display='none';return c}
+const save=(u,n)=>{const a=document.createElement('a');a.href=u;a.download=n;a.click()};
+const guard=fn=>async()=>{try{await fn()}catch(e){console.error(e);hint('Ekspor gagal. Kurangi kualitas ekspor (ikon ⚙️) atau ulangi setelah semua tile tampil.')}};
+$('#bPng').onclick=$('#bDl').onclick=guard(async()=>save((await layout()).toDataURL('image/png'),`geoaccess-layout-${stamp()}.png`));
+$('#bPrev').onclick=guard(async()=>{$('#dimg').src=(await layout()).toDataURL('image/jpeg',.85);$('#dlg').showModal()});
+$('#bPdf').onclick=guard(async()=>{const c=await layout(),[f,o]=$('#fmt').value.split('-'),pdf=new jspdf.jsPDF({orientation:o==='l'?'landscape':'portrait',unit:'mm',format:f});
+  pdf.addImage(c.toDataURL('image/jpeg',.92),'JPEG',0,0,pdf.internal.pageSize.getWidth(),pdf.internal.pageSize.getHeight());pdf.save(`geoaccess-layout-${stamp()}.pdf`)});
 </script>
 </body>
 </html>
